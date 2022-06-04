@@ -177,11 +177,14 @@ class PackageHandler(Options):
     @staticmethod
     def create_handler(options):
         osid = distro.id()
-
+        # print(f"osid: {osid}")
         if osid == "debian":
             oslike = osid
+        elif osid == 'fedora':
+            oslike = 'rhel'
         else:
             oslike = distro.like()
+        # print(f"oslike: {oslike}")
 
         if oslike == "arch":
             handler = PacmanHandler(options)
