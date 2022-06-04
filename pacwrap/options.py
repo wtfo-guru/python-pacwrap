@@ -36,7 +36,7 @@ class Options:
         if self.options["test"] or self.options["verbose"] >= level:
             print(message)
 
-    @staticmethod
-    def requires_super_user(prefix="Specified action"):
+    def requires_super_user(self, prefix="Specified action"):
         if os.geteuid() != 0:
-            raise PermissionError("%s requires super user priviledges." % prefix)
+            if not self.options["test"]:
+                raise PermissionError(f"{prefix} requires super user priviledges.")

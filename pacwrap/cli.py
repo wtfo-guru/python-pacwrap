@@ -27,7 +27,7 @@ def file_cmd(ctx, file):
 @click.argument("package", required=False, nargs=1)
 @click.pass_context
 def list_cmd(ctx, package):
-    """Lists files in PACKAGE or installed packages when no PACKAGE specified."""
+    """Lists files in PACKAGE or installed packages when no PACKAGE specified"""
     options = ctx.obj.copy()
     if options["debug"] > 0:
         print(f"list_cmd({ctx.obj}, {package}) called!")
@@ -37,6 +37,56 @@ def list_cmd(ctx, package):
     else:
         rtnVal = handler.list_package(package)
     return rtnVal
+
+
+@click.command(name="find")
+@click.option("--names-only/--no-names-only", default=False, help="specify quiet mode")
+@click.argument("package", required=True, nargs=1)
+@click.pass_context
+def find_cmd(ctx, names_only, package):
+    """Searches repositories for PACKAGE"""
+    options = ctx.obj.copy()
+    options["names_only"] = names_only
+    if options["debug"] > 0:
+        print(f"find_cmd({ctx.obj}, {names_only}, {package}) called!")
+    handler = PackageHandler.create_handler(options)
+    return handler.find_action(package)
+
+
+@click.command(name="info")
+@click.argument("package", required=True, nargs=1)
+@click.pass_context
+def info_cmd(ctx, package):
+    """Display information about PACKAGE"""
+    options = ctx.obj.copy()
+    if options["debug"] > 0:
+        print(f"info_cmd({ctx.obj}, {package}) called!")
+    handler = PackageHandler.create_handler(options)
+    return handler.info_action(package)
+
+
+@click.command()
+@click.argument("package", required=True, nargs=1)
+@click.pass_context
+def install(ctx, package):
+    """Installs PACKAGE"""
+    options = ctx.obj.copy()
+    if options["debug"] > 0:
+        print(f"install({ctx.obj}, {package}) called!")
+    handler = PackageHandler.create_handler(options)
+    return handler.install_action(package)
+
+
+@click.command()
+@click.argument("package", required=True, nargs=1)
+@click.pass_context
+def uninstall(ctx, package):
+    """Unistalls PACKAGE"""
+    options = ctx.obj.copy()
+    if options["debug"] > 0:
+        print(f"uninstall({ctx.obj}, {package}) called!")
+    handler = PackageHandler.create_handler(options)
+    return handler.uninstall_action(package)
 
 
 def print_version(ctx, param, value):
@@ -79,44 +129,15 @@ def main(ctx, debug, output, quiet, refresh, test, verbose):
     ctx.obj["refresh"] = refresh
     ctx.obj["test"] = test
     ctx.obj["verbose"] = verbose
-    # usage = """usage: %prog [options] action
-
-    # Actions:
-    #   pacwrap find PACKAGE       # Searches repositories for PACKAGE
-    #   pacwrap info PACKAGE       # Display information about PACKAGE
-    #   pacwrap install PACKAGE    # Installs PACKAGE
-    #   pacwrap uninstall PACKAGE  # Uninstalls PACKAGE
-    # """
-    # parser = OptionParser(usage)
-
-    # (opts, args) = parser.parse_args()
-
-    # options = vars(opts)
-    # if options['debug']>1:
-    #   print (options)
-    #   print (args)
-
-    # if options['version']:
-    #   basenm = os.path.basename(sys.argv[0])
-    #   print('%s Version: 1.0.1' % basenm)
-    #   exit(0)
-
-    # args_nbr = len(args)
-    # if args_nbr < 1:
-    #   sys.stderr.write("ParameterError: Missing parameter.\n")
-    #   parser.print_help()
-    #   exit(1)
-
-    # try:
-    #   exit(handler.action(args.pop(0), args))
-    # except pkgmgrs.UsageError as ex:
-    #   sys.stderr.write("UsageErrror: %s!!!" % ex.messager)
-    #   parser.print_help()
-    #   exit(1)
 
 
 main.add_command(file_cmd, name="file")
 main.add_command(list_cmd, name="list")
+main.add_command(find_cmd, name="find")
+main.add_command(info_cmd, name="info")
+main.add_command(install)
+main.add_command(uninstall)
+
 
 if __name__ == "__main__":
     sys.exit(main(obj={}))

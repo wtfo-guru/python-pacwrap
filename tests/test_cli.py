@@ -56,7 +56,7 @@ def test_cli_list_package(runner):
     assert result.exit_code == 0
     assert f"created instance of class {cname}" in result.output
     if cname == "PacmanHandler":
-        assert "noex: paman -Ql bash" in result.output
+        assert "noex: pacman -Ql bash" in result.output
     elif cname == "AptHandler":
         assert "noex: dpkg -L bash" in result.output
     elif cname == "YumHandler" or cname == "DnfHandler":
@@ -78,3 +78,65 @@ def test_cli_list_packages(runner):
             "noex: rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\\n' | sort"
             in result.output
         )
+
+
+def test_cli_find_command(runner):
+    result = runner.invoke(cli.main, ["--test", "find", "bash"])
+    cname = handler()
+    assert not result.exception
+    assert result.exit_code == 0
+    assert f"created instance of class {cname}" in result.output
+    if cname == "PacmanHandler":
+        assert "noex: pacman -Ss bash" in result.output
+    elif cname == "AptHandler":
+        assert "noex: apt search bash" in result.output
+    elif cname == "YumHandler":
+        assert "noex: yum search bash" in result.output
+    elif cname == "DnfHandler":
+        assert "noex: dnf search bash" in result.output
+
+
+def test_cli_info_command(runner):
+    result = runner.invoke(cli.main, ["--test", "info", "bash"])
+    cname = handler()
+    assert not result.exception
+    assert result.exit_code == 0
+    assert f"created instance of class {cname}" in result.output
+    if cname == "PacmanHandler":
+        assert "noex: pacman -Qi bash" in result.output
+    elif cname == "AptHandler":
+        assert "noex: apt show bash" in result.output
+    elif cname == "YumHandler" or cname == "DnfHandler":
+        assert "noex: rpm -qi bash" in result.output
+
+
+def test_cli_install_command(runner):
+    result = runner.invoke(cli.main, ["--test", "install", "bash"])
+    cname = handler()
+    assert not result.exception
+    assert result.exit_code == 0
+    assert f"created instance of class {cname}" in result.output
+    if cname == "PacmanHandler":
+        assert "noex: pacman -S bash" in result.output
+    elif cname == "AptHandler":
+        assert "noex: apt install bash" in result.output
+    elif cname == "YumHandler":
+        assert "noex: yum install bash" in result.output
+    elif cname == "DnfHandler":
+        assert "noex: dnf install bash" in result.output
+
+
+def test_cli_uninstall_command(runner):
+    result = runner.invoke(cli.main, ["--test", "uninstall", "bash"])
+    cname = handler()
+    assert not result.exception
+    assert result.exit_code == 0
+    assert f"created instance of class {cname}" in result.output
+    if cname == "PacmanHandler":
+        assert "noex: pacman -R bash" in result.output
+    elif cname == "AptHandler":
+        assert "noex: apt remove bash" in result.output
+    elif cname == "YumHandler":
+        assert "noex: yum remove bash" in result.output
+    elif cname == "DnfHandler":
+        assert "noex: dnf remove bash" in result.output
