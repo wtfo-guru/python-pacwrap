@@ -26,13 +26,11 @@ def file_cmd(ctx, file):
 @click.command(name="list")
 @click.argument("package", required=False, nargs=1)
 @click.pass_context
-def list_cmd(ctx, output, quiet, package):
+def list_cmd(ctx, package):
     """Lists files in PACKAGE or installed packages when no PACKAGE specified."""
     options = ctx.obj.copy()
-    options["output"] = output
-    options["quiet"] = quiet
     if options["debug"] > 0:
-        print(f"list_cmd({ctx.obj}, {output}, {quiet}, {package}) called!")
+        print(f"list_cmd({ctx.obj}, {package}) called!")
     handler = PackageHandler.create_handler(options)
     if package is None:
         rtnVal = handler.list_packages()
