@@ -42,7 +42,7 @@ class PackageHandler(Options):
         return 1
 
     def file_action(self, fpath):
-        return self.unhandled("file")
+        return self.execute(self._file_cmd_args(fpath))
 
     def find_action(self, args):
         return self.unhandled("find")
