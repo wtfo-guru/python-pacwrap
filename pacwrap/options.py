@@ -3,7 +3,14 @@ import os
 
 class Options:
     def __init__(self, opts={}):
-        self.options = {"debug": 0, "verbose": 0, "test": False}
+        self.options = {
+            "debug": 0,
+            "output": None,
+            "quiet": False,
+            "refresh": False,
+            "verbose": 0,
+            "test": False,
+        }
         self.errors = 0
         self.options.update(opts)
         if self.options["test"]:

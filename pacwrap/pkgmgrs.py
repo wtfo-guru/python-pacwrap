@@ -1,10 +1,7 @@
-# -*- Mode: Python; tab-width: 4; indent-tabs-mode: nil -*-
-
-import os
 import re
+import shlex
 import subprocess
 
-import click
 import distro
 from packaging import version
 
@@ -43,7 +40,7 @@ class PackageHandler(Options):
         return 1
 
     def file_action(self, fpath):
-        return self.execute(self._file_cmd_args(fpath))
+        return self.run_command(self._file_cmd_args(fpath))
 
     def find_action(self, args):
         return self.unhandled("find")
@@ -58,14 +55,10 @@ class PackageHandler(Options):
         return self.unhandled("uninstall")
 
     def list_package(self, package_nm):
-        args = self.get_list_package_args(package_nm)
-        if self.options["debug"] > 0:
-            print(f"list_package({package_nm}) called")
-            print(f"running command: {args}")
-        return self.run_command(args)
+        self.run_command(self._list_package_args(package_nm))
 
-    def get_list_package_args(self, package_nm):
-        return self.unhandled("get_list_package_cmd")
+    def _list_package_args(self, package_nm):
+        return self.unhandled("_list_package_args")
 
     def list_packages(self):
         return self.unhandled("list packages")
@@ -100,36 +93,86 @@ class PackageHandler(Options):
     #         raise ValueError(action + " is not a valid action!!!")
     #     return result
 
-    def execute(self, cmd):
-        try:
-            subprocess.check_call(cmd)
-            result = 0
-        except subprocess.CalledProcessError as cpex:
-            if (self.options["debug"] > 0) or (self.options["verbose"] > 0):
-                print(cpex)
-            result = cpex.returncode
-        except Exception as ex:
-            print(ex)
-            result = 1
-        return result
+    # def execute(self, cmd):
+    #     try:
+    #         subprocess.check_call(cmd)
+    #         result = 0
+    #     except subprocess.CalledProcessError as cpex:
+    #         if (self.options["debug"] > 0) or (self.options["verbose"] > 0):
+    #             print(cpex)
+    #         result = cpex.returncode
+    #     except Exception as ex:
+    #         print(ex)
+    #         result = 1
+    #     return result
+
+    def run_pipes(self, cmds):
+        """
+        Run commands in PIPE, return the last process in chain
+        """
+        if self.options["test"]:
+            print("noex: {}".format(" | ".join(cmds)))
+            return 0
+        cmds = map(shlex.split, cmds)
+        first_cmd, *rest_cmds = cmds
+        procs = [subprocess.Popen(first_cmd, stdout=subprocess.PIPE)]
+        for cmd in rest_cmds:
+            last_stdout = procs[-1].stdout
+            proc = subprocess.Popen(cmd, stdin=last_stdout, stdout=subprocess.PIPE)
+            procs.append(proc)
+        last_proc = procs[-1]
+        rtnVal = last_proc.wait()
+        sout = last_proc.stdout
+        if rtnVal != 0:
+            serr = last_proc.stderr
+        else:
+            serr = False
+        if self.options["output"] is not None:
+            outf = open(self.options["output"], "w")
+        else:
+            outf = None
+        for line in sout:
+            line = line.decode()
+            if not self.options["quiet"]:
+                print(line, end="")
+            if outf:
+                print(line, end="", file=outf)
+        if serr:
+            if not self.options["quiet"]:
+                print("stderr:")
+            if outf:
+                print("stderr:", file=outf)
+            for line in serr:
+                line = line.decode()
+                if not self.options["quiet"]:
+                    print(line, end="")
+                if outf:
+                    print(line, end="", file=outf)
+        return rtnVal
 
     def run_command(self, args):
+        if self.options["test"]:
+            print("noex: {}".format(" ".join(args)))
+            return 0
         result = subprocess.run(args, shell=False, capture_output=True)
-        # print(result)
+        rtnVal = result.returncode
         ostr = result.stdout.decode("utf-8")
+        if rtnVal != 0:
+            estr = result.stderr.decode("utf-8")
+        else:
+            estr = False
         if self.options["output"] is not None:
             with open(self.options["output"], "w") as out:
                 out.write(ostr)
-        click.echo(ostr)
+                if estr:
+                    print("stderr:", file=out)
+                    out.write(estr)
+        if not self.options["quiet"]:
+            print(ostr)
+            if estr:
+                print("stderr:")
+                print(estr)
         return result.returncode
-
-    def output_if(self, cmd):
-        if self.options["output"] is not None:
-            if self.options["quiet"]:
-                cmd += " > %s" % self.options["output"]
-            else:
-                cmd += " | tee %s" % self.options["output"]
-        return os.system(cmd)
 
     @staticmethod
     def create_handler(options):
@@ -156,15 +199,14 @@ class PackageHandler(Options):
 
 
 class PacmanHandler(PackageHandler):
-    def get_list_package_args(self, package_nm):
+    def _list_package_args(self, package_nm):
         return ["pacman", "-Q", "-l", package_nm]
 
     def list_packages(self):
-        result = self.output_if("pacman -Qe")
-        return result
+        return self.run_command(["pacman", "-Qe"])
 
-    def file_action(self, fpath):
-        return self.execute(["pacman", "-Qo", fpath])
+    def _file_cmd_args(self, fpath):
+        return ["pacman", "-Qo", fpath]
 
     def info_action(self, args):
         return self.execute(["pacman", "-Qi", args[0]])
@@ -195,15 +237,14 @@ class PacmanHandler(PackageHandler):
 
 
 class AptHandler(PackageHandler):
-    def list_package(self, package_nm):
-        return self.output_if(f"dpkg -L {package_nm}")
+    def _list_package_args(self, package_nm):
+        return ["dpkg", "-L", package_nm]
 
     def list_packages(self):
-        result = self.output_if(r"apt list --installed | sort")
-        return result
+        return self.run_pipes(["apt list --installed", "sort"])
 
-    def file_action(self, fpath):
-        return self.execute(["dpkg", "-S", fpath])
+    def _file_cmd_args(self, fpath):
+        return ["dpkg", "-S", fpath]
 
     def info_action(self, args):
         return self.execute(["apt-cache", "show", args[0]])
@@ -240,17 +281,15 @@ class YumHandler(PackageHandler):
         PackageHandler.__init__(self, opts)  # python2 compatibility
         self.pkgcmd = "yum"
 
-    def list_package(self, package_nm):
-        return self.output_if(f"rpm -ql {package_nm}")
+    def _list_package_args(self, package_nm):
+        return ["rpm", "-ql", package_nm]
 
     def list_packages(self):
-        result = self.output_if(
-            "rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\\n' | sort"
-        )
-        return result
+        cmds = ["rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\\n'", "sort"]
+        return self.run_pipes(cmds)
 
-    def file_action(self, fpath):
-        return self.execute(["rpm", "-qf", fpath])
+    def _file_cmd_args(self, fpath):
+        return ["rpm", "-qf", fpath]
 
     def info_action(self, args):
         return self.execute(["rpm", "-qi", args[0]])

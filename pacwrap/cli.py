@@ -15,6 +15,7 @@ from .pkgmgrs import PackageHandler
 @click.argument("file", required=True, nargs=1)
 @click.pass_context
 def file_cmd(ctx, file):
+    """Displays package if any that include the FILE"""
     options = ctx.obj.copy()
     if options["debug"] > 0:
         print(f"file_cmd({ctx.obj}, {file}) called!")
@@ -23,11 +24,10 @@ def file_cmd(ctx, file):
 
 
 @click.command(name="list")
-@click.option("-o", "--out", "output", help="specify output file")
-@click.option("-q", "--quiet/--no-quiet", default=False, help="specify quiet mode")
 @click.argument("package", required=False, nargs=1)
 @click.pass_context
 def list_cmd(ctx, output, quiet, package):
+    """Lists files in PACKAGE or installed packages when no PACKAGE specified."""
     options = ctx.obj.copy()
     options["output"] = output
     options["quiet"] = quiet
@@ -50,6 +50,8 @@ def print_version(ctx, param, value):
 
 @click.group
 @click.option("-d", "--debug", count=True, default=0, help="increment debug level")
+@click.option("-o", "--out", "output", help="specify output file")
+@click.option("-q", "--quiet/--no-quiet", default=False, help="specify quiet mode")
 @click.option(
     "-r",
     "--refresh/--no-refresh",
@@ -70,22 +72,21 @@ def print_version(ctx, param, value):
     help="show version and exit",
 )
 @click.pass_context
-def main(ctx, debug, refresh, test, verbose):
+def main(ctx, debug, output, quiet, refresh, test, verbose):
     """Provides single interface to several common Linux package managers."""
     ctx.ensure_object(dict)
     ctx.obj["debug"] = debug
+    ctx.obj["output"] = output
+    ctx.obj["quiet"] = quiet
     ctx.obj["refresh"] = refresh
     ctx.obj["test"] = test
     ctx.obj["verbose"] = verbose
     # usage = """usage: %prog [options] action
 
     # Actions:
-    #   pacwrap file FILE          # Displays package if any that include the FILE
     #   pacwrap find PACKAGE       # Searches repositories for PACKAGE
     #   pacwrap info PACKAGE       # Display information about PACKAGE
     #   pacwrap install PACKAGE    # Installs PACKAGE
-    #   pacwrap list [PACKAGE]     # Lists files in PACKAGE or
-    # installed packages when no PACKAGE specified.
     #   pacwrap uninstall PACKAGE  # Uninstalls PACKAGE
     # """
     # parser = OptionParser(usage)

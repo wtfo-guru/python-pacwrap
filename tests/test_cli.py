@@ -21,12 +21,12 @@ def test_cli(runner):
 
 
 def test_cli_with_option(runner):
-    result = runner.invoke(cli.main, ["--debug", "--test", "list", "bash"])
+    result = runner.invoke(cli.main, ["--test", "list", "bash"])
     assert not result.exception
     assert result.exit_code == 0
-    with open("/tmp/test.txt", "w") as to:
-        print(result.output, file=to)
-    # assert 'bash' in result.output
+    # with open("/tmp/test.txt", "w") as to:
+    #     print(result.output, file=to)
+    assert "bash" in result.output
 
 
 # def test_cli_with_arg(runner):
