@@ -4,6 +4,7 @@ import os
 import re
 import subprocess
 
+import click
 import distro
 from packaging import version
 
@@ -57,7 +58,14 @@ class PackageHandler(Options):
         return self.unhandled("uninstall")
 
     def list_package(self, package_nm):
-        return self.unhandled("list package")
+        args = self.get_list_package_args(package_nm)
+        if self.options["debug"] > 0:
+            print(f"list_package({package_nm}) called")
+            print(f"running command: {args}")
+        return self.run_command(args)
+
+    def get_list_package_args(self, package_nm):
+        return self.unhandled("get_list_package_cmd")
 
     def list_packages(self):
         return self.unhandled("list packages")
@@ -105,6 +113,16 @@ class PackageHandler(Options):
             result = 1
         return result
 
+    def run_command(self, args):
+        result = subprocess.run(args, shell=False, capture_output=True)
+        # print(result)
+        ostr = result.stdout.decode("utf-8")
+        if self.options["output"] is not None:
+            with open(self.options["output"], "w") as out:
+                out.write(ostr)
+        click.echo(ostr)
+        return result.returncode
+
     def output_if(self, cmd):
         if self.options["output"] is not None:
             if self.options["quiet"]:
@@ -138,8 +156,8 @@ class PackageHandler(Options):
 
 
 class PacmanHandler(PackageHandler):
-    def list_package(self, package_nm):
-        return self.output_if(f"pacman -Ql {package_nm}")
+    def get_list_package_args(self, package_nm):
+        return ["pacman", "-Q", "-l", package_nm]
 
     def list_packages(self):
         result = self.output_if("pacman -Qe")

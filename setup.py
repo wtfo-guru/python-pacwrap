@@ -3,11 +3,11 @@ Provides single interface to several common Linux package managers.
 """
 from setuptools import find_packages, setup
 
-dependencies = ["click"]
+dependencies = ["click", "distro", "packaging"]
 
 setup(
     name="pacwrap",
-    version="0.1.0",
+    version="0.2.0",
     url="https://github.com/wtfo-guru/python-pacwrap",
     license="MIT",
     author="Quien Sabe",
