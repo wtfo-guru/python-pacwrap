@@ -180,8 +180,8 @@ class PackageHandler(Options):
         # print(f"osid: {osid}")
         if osid == "debian":
             oslike = osid
-        elif osid == 'fedora':
-            oslike = 'rhel'
+        elif osid == "fedora":
+            oslike = "rhel"
         else:
             oslike = distro.like()
         # print(f"oslike: {oslike}")
@@ -203,7 +203,7 @@ class PackageHandler(Options):
 
 class PacmanHandler(PackageHandler):
     def _list_package_args(self, package_nm):
-        return ["pacman", "-Q", "-l", package_nm]
+        return ["pacman", "-Ql", package_nm]
 
     def list_packages(self):
         return self.run_command(["pacman", "-Qe"])

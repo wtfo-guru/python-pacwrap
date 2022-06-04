@@ -1,3 +1,6 @@
+import re
+
+import distro
 import pytest
 from click.testing import CliRunner
 
@@ -9,6 +12,14 @@ def runner():
     return CliRunner()
 
 
+def handler():
+    osid = distro.id()
+    if re.match(r"(arch|manjaro)", osid):
+        return "PacmanHandler"
+    else:
+        return "dunno"
+
+
 def test_cli(runner):
     result = runner.invoke(cli.main)
     assert result.exit_code == 0
@@ -17,20 +28,33 @@ def test_cli(runner):
         "Provides single interface to several common Linux package managers."
         in result.output
     )
-    # assert result.output.strip() == "Hello, world."
 
 
-def test_cli_with_option(runner):
-    result = runner.invoke(cli.main, ["--test", "list", "bash"])
+def test_cli_file_command(runner):
+    result = runner.invoke(cli.main, ["--test", "file", "/usr/bin/bashbug"])
+    cname = handler()
     assert not result.exception
     assert result.exit_code == 0
-    # with open("/tmp/test.txt", "w") as to:
-    #     print(result.output, file=to)
-    assert "bash" in result.output
+    assert f"created instance of class {cname}" in result.output
+    if cname == "PacmanHandler":
+        assert "noex: pacman -Qo /usr/bin/bashbug" in result.output
 
 
-# def test_cli_with_arg(runner):
-#     result = runner.invoke(cli.main, ["Quien"])
-#     assert result.exit_code == 0
-#     assert not result.exception
-#     assert result.output.strip() == "Hello, Quien."
+def test_cli_list_package(runner):
+    result = runner.invoke(cli.main, ["--test", "list", "bash"])
+    cname = handler()
+    assert not result.exception
+    assert result.exit_code == 0
+    assert f"created instance of class {cname}" in result.output
+    if cname == "PacmanHandler":
+        assert "noex: pacman -Ql bash" in result.output
+
+
+def test_cli_list_packages(runner):
+    result = runner.invoke(cli.main, ["--test", "list"])
+    cname = handler()
+    assert not result.exception
+    assert result.exit_code == 0
+    assert f"created instance of class {cname}" in result.output
+    if cname == "PacmanHandler":
+        assert "noex: pacman -Qe" in result.output
