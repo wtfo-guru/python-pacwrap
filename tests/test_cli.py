@@ -15,6 +15,8 @@ def runner():
 def handler():
     osid = distro.id()
     oslike = distro.like()
+    if re.match(r"(fedora)", osid):
+        return "DnfHandler"
     if re.match(r"(arch|manjaro)", osid):
         return "PacmanHandler"
     elif re.match(r"(ubuntu|debian)", osid) or re.match(r"debian", oslike):
@@ -43,6 +45,8 @@ def test_cli_file_command(runner):
         assert "noex: pacman -Qo /usr/bin/bashbug" in result.output
     elif cname == "AptHandler":
         assert "noex: dpkg -S /usr/bin/bashbug" in result.output
+    elif cname == "YumHandler" or cname == "DnfHandler":
+        assert "noex: rpm -qf /usr/bin/bashbug" in result.output
 
 
 def test_cli_list_package(runner):
@@ -55,6 +59,8 @@ def test_cli_list_package(runner):
         assert "noex: paman -Ql bash" in result.output
     elif cname == "AptHandler":
         assert "noex: dpkg -L bash" in result.output
+    elif cname == "YumHandler" or cname == "DnfHandler":
+        assert "noex: rpm -ql bash" in result.output
 
 
 def test_cli_list_packages(runner):
@@ -67,3 +73,8 @@ def test_cli_list_packages(runner):
         assert "noex: pacman -Qe" in result.output
     elif cname == "AptHandler":
         assert "noex: apt list --installed | sort" in result.output
+    elif cname == "YumHandler" or cname == "DnfHandler":
+        assert (
+            "noex: rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\n' | sort"
+            in result.output
+        )

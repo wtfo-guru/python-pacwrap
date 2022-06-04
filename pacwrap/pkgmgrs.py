@@ -325,5 +325,3 @@ class DnfHandler(YumHandler):
     def __init__(self, opts={}):
         YumHandler.__init__(self, opts)  # python2 compatibility
         self.pkgcmd = "dnf"
-        if self.options["test"]:
-            print("created instance of DnfHandler")
