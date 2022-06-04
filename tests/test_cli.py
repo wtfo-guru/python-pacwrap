@@ -75,6 +75,6 @@ def test_cli_list_packages(runner):
         assert "noex: apt list --installed | sort" in result.output
     elif cname == "YumHandler" or cname == "DnfHandler":
         assert (
-            "noex: rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\n' | sort"
+            "noex: rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\\n' | sort"
             in result.output
         )
