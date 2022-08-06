@@ -135,6 +135,8 @@ class PackageHandler(Options):
             oslike = osid
         elif osid == "fedora":
             oslike = "rhel"
+        elif osid == "pop":
+            oslike = "debian"
         else:
             oslike = distro.like()
         # print(f"oslike: {oslike}")
