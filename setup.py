@@ -7,7 +7,7 @@ dependencies = ["click>=8.1.0", "distro", "packaging"]
 
 setup(
     name="pacwrap",
-    version="0.2.3-dev0",
+    version="0.2.3-dev1",
     url="https://github.com/wtfo-guru/python-pacwrap",
     license="MIT",
     author="Quien Sabe",
