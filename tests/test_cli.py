@@ -19,7 +19,7 @@ def handler():
         return "DnfHandler"
     if re.match(r"(arch|manjaro)", osid):
         return "PacmanHandler"
-    elif re.match(r"(ubuntu|debian)", osid) or re.match(r"debian", oslike):
+    elif re.match(r"(ubuntu|debian|pop)", osid) or re.search(r"debian", oslike):
         return "AptHandler"
     else:
         return "dunno"
@@ -89,7 +89,7 @@ def test_cli_find_command(runner):
     if cname == "PacmanHandler":
         assert "noex: pacman -Ss bash" in result.output
     elif cname == "AptHandler":
-        assert "noex: apt search bash" in result.output
+        assert "noex: apt search --names-only bash" in result.output
     elif cname == "YumHandler":
         assert "noex: yum search bash" in result.output
     elif cname == "DnfHandler":
