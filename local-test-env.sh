@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE=${1:-ghcr.io/qs5779/python-multi:edge}
+IMAGE=${1:-ghcr.io/qs5779/python-multi:latest}
 
 docker pull "$IMAGE"
 

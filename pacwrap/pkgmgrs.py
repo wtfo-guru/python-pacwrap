@@ -1,6 +1,8 @@
 import re
 import shlex
 import subprocess
+import tempfile
+from pathlib import Path
 
 import distro
 from packaging import version
@@ -58,6 +60,23 @@ class PackageHandler(Options):
 
     def list_packages(self):
         return self.unhandled("list packages")
+
+    def run_pipes_script(self, cmds):
+        """
+        Create a script file of piped commands and run it
+        """
+        joined = " | ".join(cmds)
+        if self.options["test"]:
+            print(f"noex: {joined}")
+            return 0
+        script = f"#!/bin/sh\n\n{joined}"
+        fp = tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", delete=False)
+        sname = Path(fp.name)
+        print(script, file=fp)
+        fp.close()
+        sname.chmod(0o755)
+        self.run_command([str(sname)])
+        sname.unlink(missing_ok=True)
 
     def run_pipes(self, cmds):
         """
@@ -193,7 +212,7 @@ class AptHandler(PackageHandler):
         return ["dpkg", "-L", package_nm]
 
     def list_packages(self):
-        return self.run_pipes(["apt list --installed", "sort"])
+        return self.run_pipes_script(["apt list --installed", "sort"])
 
     def _file_cmd_args(self, fpath):
         return ["dpkg", "-S", fpath]
