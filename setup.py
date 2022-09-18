@@ -3,7 +3,7 @@ Provides single interface to several common Linux package managers.
 """
 from setuptools import find_packages, setup
 
-dependencies = ["click", "distro", "packaging"]
+dependencies = ["click>=8.1.0", "distro", "packaging"]
 
 setup(
     name="pacwrap",
