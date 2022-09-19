@@ -10,6 +10,8 @@ import click
 from . import __version__
 from .pkgmgrs import PackageHandler
 
+CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
+
 
 @click.command(name="file")
 @click.argument("file", required=True, nargs=1)
@@ -96,7 +98,7 @@ def print_version(ctx, param, value):
     ctx.exit()
 
 
-@click.group
+@click.group(context_settings=CONTEXT_SETTINGS)
 @click.option("-d", "--debug", count=True, default=0, help="increment debug level")
 @click.option("-o", "--out", "output", help="specify output file")
 @click.option("-q", "--quiet/--no-quiet", default=False, help="specify quiet mode")
