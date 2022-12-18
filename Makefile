@@ -1,4 +1,7 @@
 SHELL:=/usr/bin/env bash
+
+PROJECT ?= $(shell git rev-parse --show-toplevel)
+
 .PHONY: black
 black:
 	poetry run isort .
@@ -42,7 +45,6 @@ test: lint package unit
 
 .PHONY: work
 work:
-	PROJECT = $(shell git rev-parse --show-toplevel)
 	docker run --rm -it --volume $(PROJECT):/project/ poetry-rocky8-3.10.9 /bin/bash
 
 .PHONY: clean clean-build clean-pyc clean-test

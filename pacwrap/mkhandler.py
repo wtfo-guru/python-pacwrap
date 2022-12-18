@@ -1,4 +1,5 @@
 import re
+from typing import Tuple
 
 import distro
 from packaging import version
@@ -11,29 +12,32 @@ from pacwrap.pkgmgr import PackageHandler
 from pacwrap.yum import YumHandler
 
 
-def get_oslike() -> str:
-    """Returns disrto like sanely."""
+def get_osinfo() -> Tuple[str, str, str]:
+    """Returns distro data sanely."""
     osid = distro.id()
-    if osid == "debian":
-        return osid
-    elif osid == "fedora":
-        return "rhel"
-    elif osid == "pop":
-        return "debian"
-    return distro.like()
+    if osid in {"debian", "pop"}:
+        oslike = "debin"
+    elif osid in {"fedora", "rocky"}:
+        oslike = "rhel"
+    else:
+        oslike = distro.like()
+    return (osid, oslike, distro.version())
 
 
-def create_rhel_handler(options: StrAnyDict) -> PackageHandler:
+def create_rhel_handler(options: StrAnyDict, osid: str, osvers) -> PackageHandler:
     """Returns package handler for redhat family."""
-    # should probably check for older fedora
-    if version.parse(distro.version()) < version.parse("8"):
+    if osid == "fedora":
+        threshold_ver = "22"
+    else:
+        threshold_ver = "8"
+    if version.parse(osvers) < version.parse(threshold_ver):
         return YumHandler(options)
     return DnfHandler(options)
 
 
 def create_handler(options: StrAnyDict) -> PackageHandler:
     """Returns package handler for distro."""
-    oslike = get_oslike()
+    osid, oslike, osvers = get_osinfo()
 
     phandler: PackageHandler
 
@@ -42,7 +46,7 @@ def create_handler(options: StrAnyDict) -> PackageHandler:
     elif oslike == "debian":
         phandler = AptHandler(options)
     elif re.search("rhel", oslike):
-        phandler = create_rhel_handler(options)
+        phandler = create_rhel_handler(options, osid, osvers)
     else:
         raise ValueError("Unsupported distro like => {0}".format(oslike))
     return phandler

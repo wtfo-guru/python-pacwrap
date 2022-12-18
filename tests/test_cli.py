@@ -1,10 +1,9 @@
-import re
-
-import distro
 import pytest
 from click.testing import CliRunner
+from packaging import version
 
 from pacwrap import VERSION, cli
+from pacwrap.mkhandler import get_osinfo
 
 
 @pytest.fixture()
@@ -16,14 +15,20 @@ def runner():
 @pytest.fixture()
 def phandler() -> str:
     """Return handler name."""
-    osid = distro.id()
-    oslike = distro.like()
-    if re.match("fedora", osid):
-        return "DnfHandler"
-    if re.match("(arch|manjaro)", osid):
+    osid, oslike, osvers = get_osinfo()
+
+    if oslike == "arch":
         return "PacmanHandler"
-    elif re.match("(ubuntu|debian|pop)", osid) or re.search("debian", oslike):
+    elif oslike == "debian":
         return "AptHandler"
+    elif oslike == "rhel":
+        if osid == "fedora":
+            threshold_ver = "22"
+        else:
+            threshold_ver = "8"
+        if version.parse(osvers) < version.parse(threshold_ver):
+            return "YumHandler"
+        return "DnfHandler"
     return "dunno"
 
 
@@ -120,7 +125,7 @@ def test_cli_find_refresh_option(runner, phandler):
     elif phandler == "YumHandler":
         assert "noex: yum search bash" in fruit.output
     elif phandler == "DnfHandler":
-        assert "noex: dnf search bash" in fruit.output
+        assert "noex: dnf --refresh search bash" in fruit.output
 
 
 def test_cli_find_names_only_command(runner, phandler):
@@ -183,7 +188,7 @@ def test_cli_install_refresh_option(runner, phandler):
     elif phandler == "YumHandler":
         assert "noex: yum install bash" in fruit.output
     elif phandler == "DnfHandler":
-        assert "noex: dnf install bash" in fruit.output
+        assert "noex: dnf --refresh install bash" in fruit.output
 
 
 def test_cli_uninstall_command(runner, phandler):
