@@ -1,6 +1,8 @@
 SHELL:=/usr/bin/env bash
 
 PROJECT ?= $(shell git rev-parse --show-toplevel)
+DISTRO ?= ubuntu20.04
+PYVERS = 3.10.9
 
 .PHONY: black
 black:
@@ -45,7 +47,7 @@ test: lint package unit
 
 .PHONY: work
 work:
-	docker run --rm -it --volume $(PROJECT):/project/ poetry-rocky8-3.10.9 /bin/bash
+	docker run --rm -it --volume $(PROJECT):/project/ poetry-$(DISTRO)-$(PYVERS) /bin/bash
 
 .PHONY: clean clean-build clean-pyc clean-test
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts

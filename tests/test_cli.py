@@ -119,7 +119,7 @@ def test_cli_find_refresh_option(runner, phandler):
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
     if phandler == "PacmanHandler":
-        assert "noex: pacman -Ss bash" in fruit.output
+        assert "noex: pacman -Ssy bash" in fruit.output
     elif phandler == "AptHandler":
         assert "noex: apt search bash" in fruit.output
     elif phandler == "YumHandler":
@@ -181,7 +181,7 @@ def test_cli_install_refresh_option(runner, phandler):
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
     if phandler == "PacmanHandler":
-        assert "noex: pacman -S bash" in fruit.output
+        assert "noex: pacman -Sy bash" in fruit.output
     elif phandler == "AptHandler":
         assert "noex: apt update" in fruit.output
         assert "noex: apt install bash" in fruit.output

@@ -19,6 +19,8 @@ def get_osinfo() -> Tuple[str, str, str]:
         oslike = "debin"
     elif osid in {"fedora", "rocky"}:
         oslike = "rhel"
+    elif osid in {"arch", "manjaro"}:
+        oslike = "arch"
     else:
         oslike = distro.like()
     return (osid, oslike, distro.version())
