@@ -3,6 +3,7 @@ from typing import Tuple
 
 import distro
 from packaging import version
+from typing import Optional
 from wtforglib.kinds import StrAnyDict
 
 from pacwrap.apt import AptHandler
@@ -12,18 +13,25 @@ from pacwrap.pkgmgr import PackageHandler
 from pacwrap.yum import YumHandler
 
 
-def get_osinfo() -> Tuple[str, str, str]:
+def get_osinfo(options: StrAnyDict) -> Tuple[str, str, str]:
     """Returns distro data sanely."""
-    osid = distro.id()
+    osid: Optional[str] = distro.id()
+    oslike: Optional[str] = distro.like()
+    osvers: Optional[str] = distro.version()
+    otest = options.get("test")
+    if otest:
+        osid = options.get("osid", osid)
+        osvers = options.get("osvers", osvers)
     if osid in {"debian", "pop"}:
-        oslike = "debin"
+        oslike = "debian"
     elif osid in {"fedora", "rocky"}:
         oslike = "rhel"
     elif osid in {"arch", "manjaro"}:
         oslike = "arch"
     else:
-        oslike = distro.like()
-    return (osid, oslike, distro.version())
+        if otest:
+            oslike = options.get("oslike", oslike)
+    return (osid, oslike, osvers)
 
 
 def create_rhel_handler(options: StrAnyDict, osid: str, osvers) -> PackageHandler:
@@ -39,7 +47,7 @@ def create_rhel_handler(options: StrAnyDict, osid: str, osvers) -> PackageHandle
 
 def create_handler(options: StrAnyDict) -> PackageHandler:
     """Returns package handler for distro."""
-    osid, oslike, osvers = get_osinfo()
+    osid, oslike, osvers = get_osinfo(options)
 
     phandler: PackageHandler
 

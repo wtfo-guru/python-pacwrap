@@ -15,7 +15,7 @@ def runner():
 @pytest.fixture()
 def phandler() -> str:
     """Return handler name."""
-    osid, oslike, osvers = get_osinfo()
+    osid, oslike, osvers = get_osinfo({"test": True})
 
     if oslike == "arch":
         return "PacmanHandler"
