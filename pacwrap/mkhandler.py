@@ -20,6 +20,7 @@ def get_osinfo(options: StrAnyDict) -> Tuple[str, str, str]:
     otest = options.get("test")
     if otest:
         osid = options.get("osid", osid)
+        oslike = options.get("oslike", oslike)
         osvers = options.get("osvers", osvers)
     if osid in {"debian", "pop"}:
         oslike = "debian"
@@ -27,8 +28,6 @@ def get_osinfo(options: StrAnyDict) -> Tuple[str, str, str]:
         oslike = "rhel"
     elif osid in {"arch", "manjaro"}:
         oslike = "arch"
-    elif otest:
-        oslike = options.get("oslike", oslike)
     return (osid, oslike, osvers)
 
 

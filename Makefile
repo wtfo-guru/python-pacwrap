@@ -49,6 +49,10 @@ test: lint package unit
 work:
 	docker run --rm -it --volume $(PROJECT):/project/ poetry-$(DISTRO)-$(PYVERS) /bin/bash
 
+.PHONY: docs
+docs:
+	@cd docs && $(MAKE) $@
+
 .PHONY: clean clean-build clean-pyc clean-test
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
@@ -71,6 +75,3 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 	rm -fr .mypy_cache
-
-.DEFAULT:
-	@cd docs && $(MAKE) $@

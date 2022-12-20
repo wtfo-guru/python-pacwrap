@@ -9,6 +9,7 @@ from pacwrap.yum import YumHandler
 gt_opts = {
     "test": True,
     "osid": "gentoo",
+    "oslike": "gentoo",
 }
 
 apt_opts = {
