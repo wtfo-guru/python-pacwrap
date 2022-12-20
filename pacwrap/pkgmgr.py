@@ -1,4 +1,3 @@
-import shlex
 import subprocess  # noqa: S404
 import tempfile
 from pathlib import Path
@@ -99,22 +98,6 @@ class PackageHandler(Options):  # noqa: WPS214
             print(ostr)
             if estr:
                 print("stderr:\n{0}".format(estr))
-
-    def run_pipes(self, cmds: Tuple[str, ...]) -> int:  # noqa: WPS210
-        """Run commands in PIPE, return the last process in chain."""
-        if self.test:
-            print("noex: {0}".format(" | ".join(cmds)))
-            return 0
-        first_cmd, *rest_cmds = map(shlex.split, cmds)
-        procs = [subprocess.Popen(first_cmd, stdout=subprocess.PIPE)]
-        for cmd in rest_cmds:
-            procs.append(
-                subprocess.Popen(cmd, stdin=procs[-1].stdout, stdout=subprocess.PIPE),
-            )
-        last_proc = procs[-1]
-        vrtn = last_proc.wait()
-        self.handle_cmd_out(last_proc.stdout, last_proc.stderr, vrtn)
-        return vrtn
 
     def run_command(self, args: Tuple[str, ...]) -> int:
         """Runs commands specified by args."""

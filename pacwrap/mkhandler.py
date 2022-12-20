@@ -3,7 +3,6 @@ from typing import Tuple
 
 import distro
 from packaging import version
-from typing import Optional
 from wtforglib.kinds import StrAnyDict
 
 from pacwrap.apt import AptHandler
@@ -15,9 +14,9 @@ from pacwrap.yum import YumHandler
 
 def get_osinfo(options: StrAnyDict) -> Tuple[str, str, str]:
     """Returns distro data sanely."""
-    osid: Optional[str] = distro.id()
-    oslike: Optional[str] = distro.like()
-    osvers: Optional[str] = distro.version()
+    osid: str = distro.id()
+    oslike: str = distro.like()
+    osvers: str = distro.version()
     otest = options.get("test")
     if otest:
         osid = options.get("osid", osid)
@@ -28,9 +27,8 @@ def get_osinfo(options: StrAnyDict) -> Tuple[str, str, str]:
         oslike = "rhel"
     elif osid in {"arch", "manjaro"}:
         oslike = "arch"
-    else:
-        if otest:
-            oslike = options.get("oslike", oslike)
+    elif otest:
+        oslike = options.get("oslike", oslike)
     return (osid, oslike, osvers)
 
 

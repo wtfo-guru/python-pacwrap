@@ -19,7 +19,7 @@ class YumHandler(PackageHandler):
             "rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\\n'",  # noqa: WPS342, E501
             "sort",
         )
-        return self.run_pipes(cmds)
+        return self.run_pipes_script(cmds)
 
     def find_action(self, package: str) -> int:
         """Searches for specified package."""

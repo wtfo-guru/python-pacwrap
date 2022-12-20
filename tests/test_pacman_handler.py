@@ -1,10 +1,9 @@
 import pytest
 
-from packaging import version
-
 from pacwrap.mkhandler import create_handler
-from pacwrap.pkgmgr import PackageHandler
 from pacwrap.pacman import PacmanHandler
+from pacwrap.pkgmgr import PackageHandler
+
 
 @pytest.fixture()
 def pwhandler() -> PackageHandler:
@@ -14,6 +13,7 @@ def pwhandler() -> PackageHandler:
         "osid": "arch",
     }
     return create_handler(options)
+
 
 @pytest.fixture()
 def refresh() -> PackageHandler:
@@ -25,6 +25,7 @@ def refresh() -> PackageHandler:
     }
     return create_handler(options)
 
+
 @pytest.fixture()
 def names() -> PackageHandler:
     """Return handler."""
@@ -34,6 +35,7 @@ def names() -> PackageHandler:
         "osid": "arch",
     }
     return create_handler(options)
+
 
 def test_file_command(capfd, pwhandler):
     """Test dnf handler file command."""

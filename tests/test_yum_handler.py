@@ -1,10 +1,9 @@
 import pytest
 
-from packaging import version
-
 from pacwrap.mkhandler import create_handler
 from pacwrap.pkgmgr import PackageHandler
-from pacwrap.dnf import YumHandler
+from pacwrap.yum import YumHandler
+
 
 @pytest.fixture()
 def pwhandler() -> PackageHandler:
@@ -15,6 +14,7 @@ def pwhandler() -> PackageHandler:
         "osvers": "21",
     }
     return create_handler(options)
+
 
 @pytest.fixture()
 def refresh() -> PackageHandler:
@@ -27,6 +27,7 @@ def refresh() -> PackageHandler:
     }
     return create_handler(options)
 
+
 @pytest.fixture()
 def names() -> PackageHandler:
     """Return handler."""
@@ -37,6 +38,7 @@ def names() -> PackageHandler:
         "osvers": "21",
     }
     return create_handler(options)
+
 
 def test_file_command(capfd, pwhandler):
     """Test dnf handler file command."""
@@ -60,7 +62,10 @@ def test_list_packages(capfd, pwhandler):
     tresult = pwhandler.list_packages()
     out, err = capfd.readouterr()
     assert tresult == 0
-    assert "noex: rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\\n' | sort" in out
+    assert (
+        "noex: rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\\n' | sort"
+        in out
+    )
 
 
 def test_find_action(capfd, pwhandler):

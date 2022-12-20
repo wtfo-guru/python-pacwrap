@@ -60,7 +60,7 @@ class Options(object):
         """Debug message."""
         self.trace(message)
 
-    def _verbose(self, message, level=1):
+    def _verbose(self, message: str, level: int = 1) -> None:
         """Show message if verbose level exceeds threshold."""
         if self.test or self.verbose >= level:
             print(message)

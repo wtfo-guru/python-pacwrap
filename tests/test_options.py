@@ -2,65 +2,61 @@ import pytest
 
 from pacwrap.options import Options
 
-TOPTS = {
-    "test": True,
-}
-
-DOPTS = {
-    "test": False,
-    "debug": 1,
-    "verbose": 0,
-}
-
-VOPTS = {
-    "test": False,
-    "debug": 0,
-    "verbose": 1,
-}
+test_opts = {"test": True}
+dbg_opts = {"test": False, "debug": 1, "verbose": 0}
+verbose_opts = {"test": False, "debug": 0, "verbose": 1}
 
 TSTR = "When it stops hurting it will feel better."
 
+
 def test_options_debug_flag(capfd):
-    obj = Options(DOPTS)
-    obj.trace(TSTR)
-    assert obj.isdebug()
-    assert not obj.isverbose()
-    assert not obj.istest()
-    obj._debug(TSTR)
+    """Test options debug flag."""
+    oopts = Options(dbg_opts)
+    oopts.trace(TSTR)
+    assert oopts.isdebug()
+    assert not oopts.isverbose()
+    assert not oopts.istest()
+    oopts._debug(TSTR)
     out, err = capfd.readouterr()
     assert TSTR in out
+
 
 def test_options_verbose_flag(capfd):
-    obj = Options(VOPTS)
-    obj.trace(TSTR)
-    assert not obj.isdebug()
-    assert obj.isverbose()
-    assert not obj.istest()
-    obj._verbose(TSTR)
+    """Test options verbose flag."""
+    oopts = Options(verbose_opts)
+    oopts.trace(TSTR)
+    assert not oopts.isdebug()
+    assert oopts.isverbose()
+    assert not oopts.istest()
+    oopts._verbose(TSTR)
     out, err = capfd.readouterr()
     assert TSTR in out
 
+
 def test_default_options(capfd):
-    obj = Options()
-    obj.trace(TSTR)
+    """Test options defaults."""
+    oopts = Options()
+    oopts.trace(TSTR)
     out, err = capfd.readouterr()
-    assert not obj.isdebug()
-    assert not obj.isverbose()
-    assert not obj.istest()
+    assert not oopts.isdebug()
+    assert not oopts.isverbose()
+    assert not oopts.istest()
     assert TSTR not in out
 
 
 def test_options_test_flag(capfd):
-    obj = Options(TOPTS)
-    obj.trace(TSTR)
+    """Test options test flag."""
+    oopts = Options(test_opts)
+    oopts.trace(TSTR)
     out, err = capfd.readouterr()
-    assert not obj.isdebug()
-    assert not obj.isverbose()
-    assert obj.istest()
+    assert not oopts.isdebug()
+    assert not oopts.isverbose()
+    assert oopts.istest()
     assert TSTR in out
 
 
 def test_options_requires_super_user():
-    obj = Options()
+    """Test options requires super user."""
+    oopts = Options()
     with pytest.raises(PermissionError):
-        obj.requires_super_user()
+        oopts.requires_super_user()

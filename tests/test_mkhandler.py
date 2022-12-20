@@ -1,58 +1,64 @@
 import pytest
 
-from packaging import version
-
-from pacwrap.mkhandler import create_handler
-from pacwrap.dnf import DnfHandler
-from pacwrap.yum import YumHandler
 from pacwrap.apt import AptHandler
+from pacwrap.dnf import DnfHandler
+from pacwrap.mkhandler import create_handler
 from pacwrap.pacman import PacmanHandler
+from pacwrap.yum import YumHandler
 
-
-
-GTOPTS = {
+gt_opts = {
     "test": True,
     "osid": "gentoo",
 }
 
-APTOPTS = {
+apt_opts = {
     "test": True,
     "osid": "debian",
 }
 
-PMOPTS = {
+pm_opts = {
     "test": True,
     "osid": "arch",
 }
 
-YUMOPTS = {
+yum_opts = {
     "test": True,
     "osid": "fedora",
     "osvers": "21",
 }
 
-DNFOPTS = {
+dnf_opts = {
     "test": True,
     "osid": "rocky",
     "osvers": "9",
 }
 
+
 def test_create_apt_handler():
-    pwh = create_handler(APTOPTS)
+    """Test create apt handler."""
+    pwh = create_handler(apt_opts)
     assert isinstance(pwh, AptHandler)
 
+
 def test_create_pacman_handler():
-    pwh = create_handler(PMOPTS)
+    """Test create apt handler."""
+    pwh = create_handler(pm_opts)
     assert isinstance(pwh, PacmanHandler)
 
+
 def test_create_yum_handler():
-    pwh = create_handler(YUMOPTS)
+    """Test create yum handler."""
+    pwh = create_handler(yum_opts)
     assert isinstance(pwh, YumHandler)
 
+
 def test_create_dnf_handler():
-    pwh = create_handler(DNFOPTS)
+    """Test create dnf handler."""
+    pwh = create_handler(dnf_opts)
     assert isinstance(pwh, DnfHandler)
 
+
 def test_create_gentoo_handler():
-    with pytest.raises(ValueError):
-        create_handler(GTOPTS)
+    """Test create gentoo handler."""
+    with pytest.raises(ValueError, match="Unsupported distro"):
+        create_handler(gt_opts)
