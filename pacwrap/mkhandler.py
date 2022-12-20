@@ -2,7 +2,7 @@ import re
 from typing import Tuple
 
 import distro
-from packaging import version
+from cmp_version import cmp_version
 from wtforglib.kinds import StrAnyDict
 
 from pacwrap.apt import AptHandler
@@ -37,7 +37,7 @@ def create_rhel_handler(options: StrAnyDict, osid: str, osvers) -> PackageHandle
         threshold_ver = "22"
     else:
         threshold_ver = "8"
-    if version.parse(osvers) < version.parse(threshold_ver):
+    if cmp_version(osvers, threshold_ver) < 0:
         return YumHandler(options)
     return DnfHandler(options)
 

@@ -1,6 +1,6 @@
 import pytest
 from click.testing import CliRunner
-from packaging import version
+from cmp_version import cmp_version
 
 from pacwrap import VERSION, cli
 from pacwrap.mkhandler import get_osinfo
@@ -26,7 +26,7 @@ def phandler() -> str:
             threshold_ver = "22"
         else:
             threshold_ver = "8"
-        if version.parse(osvers) < version.parse(threshold_ver):
+        if cmp_version(osvers, threshold_ver) < 0:
             return "YumHandler"
         return "DnfHandler"
     return "dunno"
