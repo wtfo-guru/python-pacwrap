@@ -1,36 +1,59 @@
-.PHONY: clean clean-build clean-pyc clean-test coverage dist docs help install lint lint/flake8 vars
-.DEFAULT_GOAL := help
+SHELL:=/usr/bin/env bash
 
-MODULE_NAME?=$(shell grep name= setup.py |sed -e 's/name=//' | tr -d '[ ",]')
+PROJECT ?= $(shell git rev-parse --show-toplevel)
+DISTRO ?= ubuntu20.04
+PYVERS = 3.10.9
 
-define BROWSER_PYSCRIPT
-import os, webbrowser, sys
+.PHONY: black
+black:
+	poetry run isort .
+	poetry run black .
 
-from urllib.request import pathname2url
+.PHONY: mypy
+mypy: black
+	poetry run mypy pacwrap tests/*.py
 
-webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
-endef
-export BROWSER_PYSCRIPT
+.PHONY: ghlint
+ghlint:
+	# poetry run mypy pacwrap tests/**/*.py
+	poetry run mypy pacwrap tests/*.py
+	# poetry run flake8 .
+	poetry run doc8 -q docs
 
-define PRINT_HELP_PYSCRIPT
-import re, sys
+.PHONY: lint
+lint: mypy
+	poetry run flake8 .
+	poetry run doc8 -q docs
 
-for line in sys.stdin:
-	match = re.match(r'^([a-zA-Z_-]+):.*?## (.*)$$', line)
-	if match:
-		target, help = match.groups()
-		print("%-20s %s" % (target, help))
-endef
-export PRINT_HELP_PYSCRIPT
+.PHONY: sunit
+sunit:
+	poetry run pytest -s tests
 
-BROWSER := python -c "$$BROWSER_PYSCRIPT"
+.PHONY: unit
+unit:
+	poetry run pytest tests
 
-help:
-	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+.PHONY: package
+package:
+	poetry check
+	poetry run pip check
+	poetry run safety check -i 51457 --full-report
 
-vars: ## show make variables
-	@echo "MODULE_NAME: $(MODULE_NAME)"
+.PHONY: ghtest
+ghtest: ghlint package unit
 
+.PHONY: test
+test: lint package unit
+
+.PHONY: work
+work:
+	docker run --rm -it --volume $(PROJECT):/project/ poetry-$(DISTRO)-$(PYVERS) /bin/bash
+
+.PHONY: docs
+docs:
+	@cd docs && $(MAKE) $@
+
+.PHONY: clean clean-build clean-pyc clean-test
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
@@ -51,45 +74,4 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
-
-lint/flake8: ## check style with flake8
-	flake8 $(MODULE_NAME) tests
-
-lint: lint/flake8 ## check style
-
-check: ## run pre-commit all
-	pipx run pre-commit run --all-files
-
-test: ## run tests quickly with the default Python
-	python setup.py test
-
-test-all: ## run tests on every Python version with tox
-	tox
-
-coverage: ## check code coverage quickly with the default Python
-	coverage run --source $(MODULE_NAME) setup.py test
-	coverage report -m
-	coverage html
-	$(BROWSER) htmlcov/index.html
-
-docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/$(MODULE_NAME).rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ $(MODULE_NAME)
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	$(BROWSER) docs/_build/html/index.html
-
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
-
-release: dist ## package and upload a release
-	twine upload dist/*
-
-dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
-	ls -l dist
-
-install: clean ## install the package to the active Python's site-packages
-	python setup.py install
+	rm -fr .mypy_cache
