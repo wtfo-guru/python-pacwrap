@@ -4,53 +4,46 @@ PROJECT ?= $(shell git rev-parse --show-toplevel)
 DISTRO ?= ubuntu20.04
 PYVERS = 3.10.9
 
-.PHONY: black
+.PHONY: black mypy lint sunit unit package test
 black:
 	poetry run isort .
 	poetry run black .
 
-.PHONY: mypy
 mypy: black
 	poetry run mypy pacwrap tests/*.py
 
-.PHONY: ghlint
-ghlint:
-	# poetry run mypy pacwrap tests/**/*.py
-	poetry run mypy pacwrap tests/*.py
-	# poetry run flake8 .
-	poetry run doc8 -q docs
-
-.PHONY: lint
 lint: mypy
 	poetry run flake8 .
 	poetry run doc8 -q docs
 
-.PHONY: sunit
 sunit:
 	poetry run pytest -s tests
 
-.PHONY: unit
 unit:
 	poetry run pytest tests
 
-.PHONY: package
 package:
 	poetry check
 	poetry run pip check
 	# re-enable when safety supports packaging ^22.0
 	# poetry run safety check -i 51457 --full-report
 
-.PHONY: ghtest
-ghtest: ghlint package unit
-
-.PHONY: test
 test: lint package unit
 
-.PHONY: work
-work:
-	docker run --rm -it --volume $(PROJECT):/project/ poetry-$(DISTRO)-$(PYVERS) /bin/bash
+.PHONY: work37 work38 work
+work37:
+	docker run --pull --rm -it --volume $(PROJECT):/project/ qs5779/python-testing:ubuntu20.04-3.7.16 /bin/bash
 
-.PHONY: docs
+work38:
+	docker run --pull --rm -it --volume $(PROJECT):/project/ qs5779/python-testing:ubuntu20.04-3.8.16 /bin/bash
+
+work:
+	docker run --pull --rm -it --volume $(PROJECT):/project/ qs5779/python-testing:$(DISTRO)-$(PYVERS) /bin/bash
+
+.PHONY: chlog docs
+chlog:
+	github_changelog_generator -u wtfo-guru -p python-pacwrap
+
 docs:
 	@cd docs && $(MAKE) $@
 
