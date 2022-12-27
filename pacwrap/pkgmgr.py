@@ -3,6 +3,8 @@ import tempfile
 from pathlib import Path
 from typing import IO, BinaryIO, NoReturn, Optional, Tuple, Union
 
+from wtforglib.versioned import unlink_path
+
 from pacwrap.options import Options
 
 XPERM = 0o755
@@ -63,7 +65,7 @@ class PackageHandler(Options):  # noqa: WPS214
         fp.close()
         sname.chmod(XPERM)
         rtn_val = self.run_command((fp.name,))
-        sname.unlink(missing_ok=True)
+        unlink_path(sname, missing_ok=True)
         return rtn_val
 
     def decode_if(self, bval: Optional[Union[bytes, IO[bytes]]]) -> str:  # noqa:WPS234
