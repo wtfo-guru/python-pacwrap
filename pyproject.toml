@@ -8,15 +8,26 @@ authors = ["Quien Sabe <qs5779@mail.com>"]
 
 readme = "README.md"
 
-repository = "https://github.com/wtfo-guru/pacwrap"
+homepage = "https://github.com/wtfo-guru/pacwrap"
+documentation = "https://python-pacwrap.readthedocs.io/en/stable"
 
 keywords = []
 
 classifiers = [
-  "Development Status :: 3 - Alpha",
-  "Intended Audience :: Developers",
-  "Operating System :: OS Independent",
-  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: End Users/Desktop",
+  "Intended Audience :: System Administrators",
+  "Operating System :: POSIX :: Linux",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Utilities",
+  "Typing :: Typed",
 ]
 
 [tool.poetry.scripts]
