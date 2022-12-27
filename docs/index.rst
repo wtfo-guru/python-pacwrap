@@ -5,9 +5,10 @@ Contents
 
 .. toctree::
   :maxdepth: 1
-  :caption: Changelog
+  :caption: Contents
 
   pages/changelog.rst
+  pages/contributing.rst
 
 
 Indices and tables
