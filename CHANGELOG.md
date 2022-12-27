@@ -1,11 +1,12 @@
 # Changelog
 
-## [Unreleased](https://github.com/wtfo-guru/python-pacwrap/tree/HEAD)
+## [v0.3.0](https://github.com/wtfo-guru/python-pacwrap/tree/v0.3.0) (2022-12-27)
 
-[Full Changelog](https://github.com/wtfo-guru/python-pacwrap/compare/v0.2.4-dev0...HEAD)
+[Full Changelog](https://github.com/wtfo-guru/python-pacwrap/compare/v0.2.4-dev0...v0.3.0)
 
 **Merged pull requests:**
 
+- v0.3.0-dev1 [\#8](https://github.com/wtfo-guru/python-pacwrap/pull/8) ([qs5779](https://github.com/qs5779))
 - updated dependences to support packaging 22.0 [\#7](https://github.com/wtfo-guru/python-pacwrap/pull/7) ([qs5779](https://github.com/qs5779))
 - V0.3.0 dev0 [\#5](https://github.com/wtfo-guru/python-pacwrap/pull/5) ([qs5779](https://github.com/qs5779))
 
