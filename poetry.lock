@@ -1404,7 +1404,7 @@ files = [
 name = "pyyaml"
 version = "6.0"
 description = "YAML parser and emitter for Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -2032,23 +2032,20 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 
 [[package]]
 name = "wtforglib"
-version = "0.2.1"
+version = "0.3.0"
 description = "A set of utility functions I use in my various python projects."
 category = "main"
 optional = false
-python-versions = "^3.7"
-files = []
-develop = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "wtforglib-0.3.0-py3-none-any.whl", hash = "sha256:c24f0fa7547989372e4645cf3e176b70c120d4a94408723c08859b79a336c47e"},
+    {file = "wtforglib-0.3.0.tar.gz", hash = "sha256:5d3d99c9a9cafd73ff1ea22f134cbeb19a2216461463f7523695ac1ebc53bd0b"},
+]
 
 [package.dependencies]
-types-pyyaml = "^6.0.12.2"
-wheel = "^0.38.0"
-
-[package.source]
-type = "git"
-url = "https://github.com/wtfo-guru/wtforglib.git"
-reference = "v0.2.1"
-resolved_reference = "a88e3a421e78ea7f7d38c013feb1b4f2c5cff179"
+pyyaml = ">=6.0,<7.0"
+types-pyyaml = ">=6.0.12.2,<7.0.0.0"
+wheel = ">=0.38.0,<0.39.0"
 
 [[package]]
 name = "zipp"
@@ -2069,4 +2066,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "c5a710bb503fb4a68c8a99571454fa4f6221f36f11dd5ce7e61cc832b3db7145"
+content-hash = "ee7fc1386bba32551bb74ed9b6f3de7572ffb235e6351ab0685d28dd8239ebe2"
