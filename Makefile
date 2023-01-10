@@ -4,7 +4,7 @@ PROJECT ?= $(shell git rev-parse --show-toplevel)
 DISTRO ?= ubuntu20.04
 PYVERS = 3.10.9
 
-.PHONY: black mypy lint sunit unit package test
+.PHONY: black mypy lint sunit unit package test publish publist-test
 black:
 	poetry run isort .
 	poetry run black .
@@ -29,6 +29,12 @@ package:
 	# poetry run safety check -i 51457 --full-report
 
 test: lint package unit
+
+publish: test
+	poetry publish --build
+
+publish-test: test
+	poetry publish --build -r test-pypi
 
 .PHONY: work37 work38 work
 work37:
