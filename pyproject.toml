@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pacwrap"
 description = "Provides single interface to several common Linux package managers."
-version = "0.3.0"
+version = "0.4.0"
 license = "MIT"
 
 authors = ["Quien Sabe <qs5779@mail.com>"]
@@ -38,7 +38,7 @@ python = "^3.7"
 click = "^8.1.0"
 distro = "^1.8.0"
 wheel = "^0.38"
-wtforglib = "^0.3.0"
+wtforglib = "^0"
 cmp-version = "^3.0.0"
 
 [tool.poetry.group.test.dependencies]
@@ -70,6 +70,13 @@ tomli = "^2.0"
 
 [tool.poetry.group.dev.dependencies]
 packaging = "^22.0"
+
+
+[[tool.poetry.source]]
+name = "test-pypi"
+url = "https://test.pypi.org/simple/"
+default = false
+secondary = true
 
 [build-system]
 requires = ["poetry-core>=1.2.0"]
