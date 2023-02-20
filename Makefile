@@ -1,10 +1,15 @@
 SHELL:=/usr/bin/env bash
 
 PROJECT ?= $(shell git rev-parse --show-toplevel)
+PROJECT_VERSION ?= $(shell grep ^current_version .bumpversion.cfg | awk '{print $$NF'} | tr '-' '.')
+WHEELS ?= /home/jim/dev/ansible/wtfplaybooks/wheels
 DISTRO ?= ubuntu20.04
 PYVERS = 3.10.9
 
-.PHONY: black mypy lint sunit unit package test publish publist-test
+.PHONY: black mypy lint sunit unit package test publish publist-test vars build
+vars:
+	@echo "PROJECT_VERSION: $(PROJECT_VERSION)"
+
 black:
 	poetry run isort .
 	poetry run black .
@@ -30,11 +35,16 @@ package:
 
 test: lint package unit
 
-publish: test
-	poetry publish --build
+build:
+	poetry build
+	cp dist/pacwrap-$(PROJECT_VERSION)-py3-none-any.whl $(WHEELS)
 
-publish-test: test
-	poetry publish --build -r test-pypi
+
+publish: test build
+	poetry publish
+
+publish-test: test build
+	poetry publish -r test-pypi
 
 .PHONY: work37 work38 work
 work37:
