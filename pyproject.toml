@@ -37,7 +37,7 @@ pacwrap = "pacwrap.cli:main"
 python = "^3.7"
 click = "^8.1.0"
 distro = "^1.8.0"
-wheel = "^0.38"
+wheel = ">=0.38,<0.41"
 wtforglib = ">= 0.7.0"
 cmp-version = "^3.0.0"
 
