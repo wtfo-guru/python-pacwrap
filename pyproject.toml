@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pacwrap"
 description = "Provides single interface to several common Linux package managers."
-version = "0.5.0-dev1"
+version = "0.5.0-dev2"
 license = "MIT"
 
 authors = ["Quien Sabe <qs5779@mail.com>"]
@@ -46,7 +46,7 @@ mypy = "^1.0.0"
 wemake-python-styleguide = "^0.17"
 flake8-pytest-style = "^1.6"
 doc8 = "^1.0"
-nitpick = "^0.32"
+nitpick = ">=0.32,<0.34"
 safety = "^2.3"
 pytest = "^7.1"
 pytest-cov = "^4.0"
@@ -57,7 +57,7 @@ black = ">=22.12,<24.0"
 setuptools = ">=65.6.3,<68.0.0"
 importlib-resources = "^5.10.1"
 importlib-metadata = { version = "<5.0", python = "<3.8" }
-requests-cache = "^0.9"
+requests-cache = ">=0.9,<1.1"
 
 [tool.poetry.group.docs]
 optional = true
