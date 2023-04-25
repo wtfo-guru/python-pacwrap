@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pacwrap"
 description = "Provides single interface to several common Linux package managers."
-version = "0.5.0-dev5"
+version = "0.5.0-dev8"
 license = "MIT"
 
 authors = ["Quien Sabe <qs5779@mail.com>"]
@@ -58,6 +58,7 @@ setuptools = ">=65.6.3,<68.0.0"
 importlib-resources = "^5.10.1"
 importlib-metadata = { version = "<5.0", python = "<3.8" }
 requests-cache = ">=0.9,<1.1"
+jmespath = "^1.0"
 
 [tool.poetry.group.docs]
 optional = true
