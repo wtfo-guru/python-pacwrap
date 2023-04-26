@@ -58,7 +58,7 @@ setuptools = ">=65.6.3,<68.0.0"
 importlib-resources = "^5.10.1"
 importlib-metadata = { version = "<5.0", python = "<3.8" }
 requests-cache = ">=0.9,<1.1"
-jmespath = "^1.0"
+jmespath = ">=1,<100"
 
 [tool.poetry.group.docs]
 optional = true
