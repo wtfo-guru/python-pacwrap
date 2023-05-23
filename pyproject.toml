@@ -77,8 +77,12 @@ packaging = ">=22,<24"
 [[tool.poetry.source]]
 name = "test-pypi"
 url = "https://test.pypi.org/simple/"
-default = false
-secondary = true
+priority = "supplemental"
+
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
 
 [build-system]
 requires = ["poetry-core>=1.2.0"]
