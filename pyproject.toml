@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pacwrap"
 description = "Provides single interface to several common Linux package managers."
-version = "0.5.0"
+version = "0.5.1-dev0"
 license = "MIT"
 
 authors = ["Quien Sabe <qs5779@mail.com>"]
@@ -21,11 +21,11 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Topic :: Utilities",
   "Typing :: Typed",
 ]
@@ -34,7 +34,7 @@ classifiers = [
 pacwrap = "pacwrap.cli:main"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = ">=3.8.1,<4.0"
 click = "^8.1.0"
 distro = "^1.8.0"
 wheel = "^0.41.1"
@@ -42,8 +42,8 @@ wtforglib = ">= 0.7.0"
 cmp-version = "^3.0.0"
 
 [tool.poetry.group.test.dependencies]
-mypy = "^1.0.0"
-wemake-python-styleguide = "^0.17"
+mypy = "^1.5.0"
+wemake-python-styleguide = "^0.18"
 flake8-pytest-style = "^1.6"
 doc8 = "^1.0"
 nitpick = ">=0.32,<0.34"
