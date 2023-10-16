@@ -1,15 +1,8 @@
 import pytest
-from click.testing import CliRunner
 from cmp_version import cmp_version
 
 from pacwrap import VERSION, cli
 from pacwrap.mkhandler import get_osinfo
-
-
-@pytest.fixture()
-def runner():
-    """Return cli runner."""
-    return CliRunner()
 
 
 @pytest.fixture()
@@ -32,9 +25,9 @@ def phandler() -> str:
     return "dunno"
 
 
-def test_cli_help(runner):
+def test_cli_help(cli_runner):
     """Test help."""
-    fruit = runner.invoke(cli.main)
+    fruit = cli_runner.invoke(cli.main)
     assert fruit.exit_code == 0
     assert not fruit.exception
     assert (
@@ -43,17 +36,17 @@ def test_cli_help(runner):
     )
 
 
-def test_cli_version(runner):
+def test_cli_version(cli_runner):
     """Test help."""
-    fruit = runner.invoke(cli.main, ["--version"])
+    fruit = cli_runner.invoke(cli.main, ["--version"])
     assert fruit.exit_code == 0
     assert not fruit.exception
     assert fruit.output.strip() == VERSION
 
 
-def test_cli_file_command(runner, phandler):
+def test_cli_file_command(cli_runner, phandler):
     """Test file."""
-    fruit = runner.invoke(cli.main, ["--test", "file", "/usr/bin/bashbug"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "file", "/usr/bin/bashbug"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
@@ -65,9 +58,9 @@ def test_cli_file_command(runner, phandler):
         assert "noex: rpm -qf /usr/bin/bashbug" in fruit.output
 
 
-def test_cli_list_package(runner, phandler):
+def test_cli_list_package(cli_runner, phandler):
     """Test list package."""
-    fruit = runner.invoke(cli.main, ["--test", "list", "bash"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "list", "bash"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
@@ -79,9 +72,9 @@ def test_cli_list_package(runner, phandler):
         assert "noex: rpm -ql bash" in fruit.output
 
 
-def test_cli_list_packages(runner, phandler):
+def test_cli_list_packages(cli_runner, phandler):
     """Test list."""
-    fruit = runner.invoke(cli.main, ["--test", "list"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "list"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
@@ -96,9 +89,9 @@ def test_cli_list_packages(runner, phandler):
         )
 
 
-def test_cli_find_command(runner, phandler):
+def test_cli_find_command(cli_runner, phandler):
     """Test find."""
-    fruit = runner.invoke(cli.main, ["--test", "find", "bash"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "find", "bash"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
@@ -112,9 +105,9 @@ def test_cli_find_command(runner, phandler):
         assert "noex: dnf search bash" in fruit.output
 
 
-def test_cli_find_refresh_option(runner, phandler):
+def test_cli_find_refresh_option(cli_runner, phandler):
     """Test find."""
-    fruit = runner.invoke(cli.main, ["--test", "--refresh", "find", "bash"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "--refresh", "find", "bash"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
@@ -128,9 +121,9 @@ def test_cli_find_refresh_option(runner, phandler):
         assert "noex: dnf --refresh search bash" in fruit.output
 
 
-def test_cli_find_names_only_command(runner, phandler):
+def test_cli_find_names_only_command(cli_runner, phandler):
     """Test find with names only option."""
-    fruit = runner.invoke(cli.main, ["--test", "find", "--names-only", "bash"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "find", "--names-only", "bash"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
@@ -144,9 +137,9 @@ def test_cli_find_names_only_command(runner, phandler):
         assert "noex: dnf search bash" in fruit.output
 
 
-def test_cli_info_command(runner, phandler):
+def test_cli_info_command(cli_runner, phandler):
     """Test info."""
-    fruit = runner.invoke(cli.main, ["--test", "info", "bash"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "info", "bash"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
@@ -158,9 +151,9 @@ def test_cli_info_command(runner, phandler):
         assert "noex: rpm -qi bash" in fruit.output
 
 
-def test_cli_install_command(runner, phandler):
+def test_cli_install_command(cli_runner, phandler):
     """Test install."""
-    fruit = runner.invoke(cli.main, ["--test", "install", "bash"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "install", "bash"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
@@ -174,9 +167,9 @@ def test_cli_install_command(runner, phandler):
         assert "noex: dnf install bash" in fruit.output
 
 
-def test_cli_install_refresh_option(runner, phandler):
+def test_cli_install_refresh_option(cli_runner, phandler):
     """Test install."""
-    fruit = runner.invoke(cli.main, ["--test", "--refresh", "install", "bash"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "--refresh", "install", "bash"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
@@ -191,9 +184,9 @@ def test_cli_install_refresh_option(runner, phandler):
         assert "noex: dnf --refresh install bash" in fruit.output
 
 
-def test_cli_uninstall_command(runner, phandler):
+def test_cli_uninstall_command(cli_runner, phandler):
     """Test uninstall."""
-    fruit = runner.invoke(cli.main, ["--test", "uninstall", "bash"])
+    fruit = cli_runner.invoke(cli.main, ["--test", "uninstall", "bash"])
     assert not fruit.exception
     assert fruit.exit_code == 0
     assert "created instance of class {0}".format(phandler) in fruit.output
