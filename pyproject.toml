@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pacwrap"
 description = "Provides single interface to several common Linux package managers."
-version = "0.5.1-dev4"
+version = "0.5.1"
 license = "MIT"
 
 authors = ["Quien Sabe <qs5779@mail.com>"]
