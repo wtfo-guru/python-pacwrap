@@ -2,7 +2,7 @@ SHELL:=/usr/bin/env bash
 
 PROJECT ?= $(shell git rev-parse --show-toplevel)
 PROJECT_VERSION ?= $(shell grep ^current_version .bumpversion.cfg | awk '{print $$NF'} | tr '-' '.')
-WHEELS ?= /home/jim/dev/ansible/wtfplaybooks/wheels
+WHEELS ?= /home/jim/kbfs/private/jim5779/wheels
 DISTRO ?= ubuntu20.04
 PYVERS = 3.10.9
 
