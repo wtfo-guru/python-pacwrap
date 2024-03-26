@@ -4,8 +4,8 @@ from typing import Optional
 from wtforglib.kinds import Fspec, StrAnyDict
 
 
-class Options(object):
-    """Class to manage opstions."""
+class Options:
+    """Class to manage options."""
 
     debug: int
     output: Fspec
