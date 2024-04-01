@@ -1,7 +1,7 @@
 SHELL:=/usr/bin/env bash
 
-PROJECT_NAME ?= $(shell basename $$(git rev-parse --show-toplevel))
-PACKAGE_DIR ?= $(PROJECT_NAME)
+PROJECT_NAME ?= $(shell basename $$(git rev-parse --show-toplevel) | sed -e "s/^python-//")
+PACKAGE_DIR ?= $(shell echo $(PROJECT_NAME) | tr "-" "_")
 PROJECT_VERSION ?= $(shell grep ^current_version .bumpversion.cfg | awk '{print $$NF'} | tr '-' '.')
 WHEELS ?= /home/jim/kbfs/private/jim5779/wheels
 TEST_MASK = tests/*.py
