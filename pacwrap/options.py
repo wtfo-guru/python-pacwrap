@@ -8,7 +8,7 @@ class Options:
     """Class to manage options."""
 
     debug: int
-    output: Fspec
+    output: Optional[Fspec]
     quiet: bool
     names_only: bool
     refresh: bool
@@ -21,7 +21,9 @@ class Options:
         if opts is None:
             opts = {}
         self.debug = opts.get("debug", 0)
-        self.output = str(opts.get("output", ""))
+        self.output = str(opts.get("output", None))
+        if self.output == "None":
+            self.output = None
         self.quiet = opts.get("quiet", False)
         self.names_only = opts.get("names_only", False)
         self.refresh = opts.get("refresh", False)
