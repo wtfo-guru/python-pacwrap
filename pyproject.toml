@@ -36,7 +36,7 @@ pacwrap = "pacwrap.cli:main"
 python = ">=3.9,<4.0"
 click = "^8.1.0"
 distro = "^1.9"
-wtforglib = "^0.8"
+wtforglib = ">=0.8,<1.1"
 cmp-version = "^3.0.0"
 
 [tool.poetry.group.test]
