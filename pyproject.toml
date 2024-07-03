@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pacwrap"
 description = "Provides single interface to several common Linux package managers."
-version = "0.5.2-dev1"
+version = "0.6.0"
 license = "MIT"
 
 authors = ["Quien Sabe <qs5779@mail.com>"]
@@ -34,10 +34,10 @@ classifiers = [
 pacwrap = "pacwrap.cli:main"
 
 [tool.poetry.dependencies]
-python = ">=3.8.1,<4.0"
+python = ">=3.9.0,<4.0"
 click = "^8.1.0"
 distro = "^1.9"
-wtforglib = ">= 0.7.0"
+wtforglib = "^1.0.0"
 cmp-version = "^3.0.0"
 
 [tool.poetry.group.test]
@@ -53,7 +53,6 @@ safety = ">=2.3,<4.0"
 pytest = ">=7.4,<9.0"
 pytest-cov = "^4.0"
 pytest-randomly = "^3.12"
-bump2version = "^1.0.1"
 isort = "^5.13"
 black = ">=22.12,<25.0"
 setuptools = ">=65.6.3,<70.0.0"

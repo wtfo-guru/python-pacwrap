@@ -215,3 +215,4 @@ fabric.properties
 
 # pyenv
 .python-version
+cspell.json

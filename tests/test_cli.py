@@ -41,7 +41,7 @@ def test_cli_version(cli_runner):
     fruit = cli_runner.invoke(cli.main, ["--version"])
     assert fruit.exit_code == 0
     assert not fruit.exception
-    assert fruit.output.strip() == VERSION
+    assert fruit.output.strip() == "main, version {0}".format(VERSION)
 
 
 def test_cli_file_command(cli_runner, phandler):
