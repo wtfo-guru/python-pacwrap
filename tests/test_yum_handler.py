@@ -5,7 +5,7 @@ from pacwrap.pkgmgr import PackageHandler
 from pacwrap.yum import YumHandler
 
 
-@pytest.fixture()
+@pytest.fixture
 def pwhandler() -> PackageHandler:
     """Return handler."""
     options = {
@@ -16,7 +16,7 @@ def pwhandler() -> PackageHandler:
     return create_handler(options)
 
 
-@pytest.fixture()
+@pytest.fixture
 def refresh() -> PackageHandler:
     """Return handler."""
     options = {
@@ -28,7 +28,7 @@ def refresh() -> PackageHandler:
     return create_handler(options)
 
 
-@pytest.fixture()
+@pytest.fixture
 def names() -> PackageHandler:
     """Return handler."""
     options = {

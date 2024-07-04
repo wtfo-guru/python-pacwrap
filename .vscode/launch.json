@@ -3,12 +3,12 @@
   "configurations": [
     {
       "name": "Python: Module",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
-      "module": "wtfquote_client.cli",
+      "module": "pacwrap.cli",
       "justMyCode": true,
       "console": "integratedTerminal",
-      "args": ["printone"]
+      "args": ["-d", "file", "/usr/bin/zipgrep"]
     }
   ]
 }

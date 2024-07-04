@@ -5,7 +5,7 @@ from pacwrap import VERSION, cli
 from pacwrap.mkhandler import get_osinfo
 
 
-@pytest.fixture()
+@pytest.fixture
 def phandler() -> str:
     """Return handler name."""
     osid, oslike, osvers = get_osinfo({"test": True})
