@@ -11,10 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Updated pydantic-core (2.20.0 -> 2.20.1)
+- Updated pydantic (2.8.0 -> 2.8.2)
 - Updated pycparser (2.21 -> 2.22)
 - Updated pygments (2.17.2 -> 2.18.0)
 - Updated typing-extensions (4.10.0 -> 4.12.2)
-- Updated certifi (2024.2.2 -> 2024.6.2)
+- Updated certifi (2024.2.2 -> 2024.7.4)
 - Updated exceptiongroup (1.2.0 -> 1.2.1)
 - Updated idna (3.6 -> 3.7)
 - Updated pycodestyle (2.11.1 -> 2.12.0)
