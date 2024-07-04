@@ -1,6 +1,6 @@
 import sys
 import types
-from typing import AnyStr, NoReturn, Optional
+from typing import NoReturn, Optional
 
 import click
 from click.core import Context
@@ -87,20 +87,12 @@ def install(ctx: Context, package: str) -> NoReturn:
 @click.argument(LPACKAGE, required=True, nargs=1)
 @click.pass_context
 def uninstall(ctx: Context, package: str) -> NoReturn:
-    """Unistalls PACKAGE."""
+    """Uninstall PACKAGE."""
     options = ctx.obj.copy()
     if options[KDEBUG] > 0:
         print("uninstall({0}, {1}) called!".format(ctx.obj, package))
     phandler = create_handler(options)
     sys.exit(phandler.uninstall_action(package))
-
-
-def print_version(ctx: Context, aparam: AnyStr, avalue: AnyStr) -> None:
-    """Print package version and exit."""
-    if not avalue or ctx.resilient_parsing:
-        return
-    print(VERSION)
-    ctx.exit()
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
@@ -121,15 +113,7 @@ def print_version(ctx: Context, aparam: AnyStr, avalue: AnyStr) -> None:
     default=0,
     help="increment verbosity level",
 )
-@click.option(
-    "-V",
-    "--version",
-    is_flag=True,
-    expose_value=False,
-    callback=print_version,
-    is_eager=True,
-    help="show version and exit",
-)
+@click.version_option(VERSION)
 @click.pass_context
 def main(ctx, debug, output, quiet, refresh, test, verbose):
     """Provides single interface to several common Linux package managers."""
