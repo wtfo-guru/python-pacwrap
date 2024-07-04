@@ -1,5 +1,59 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## 0.6.0 - 2024-07-03
+
+### Changed
+
+- Updated pydantic-core (2.20.0 -> 2.20.1)
+- Updated pydantic (2.8.0 -> 2.8.2)
+- Updated pycparser (2.21 -> 2.22)
+- Updated pygments (2.17.2 -> 2.18.0)
+- Updated typing-extensions (4.10.0 -> 4.12.2)
+- Updated certifi (2024.2.2 -> 2024.7.4)
+- Updated exceptiongroup (1.2.0 -> 1.2.1)
+- Updated idna (3.6 -> 3.7)
+- Updated pycodestyle (2.11.1 -> 2.12.0)
+- Updated urllib3 (2.2.1 -> 2.2.2)
+- Updated bandit (1.7.7 -> 1.7.9)
+- Updated cryptography (42.0.5 -> 42.0.8)
+- Updated flake8 (7.0.0 -> 7.1.0)
+- Updated jinja2 (3.1.3 -> 3.1.4)
+- Updated marshmallow (3.21.0 -> 3.21.3)
+- Updated platformdirs (4.2.0 -> 4.2.2)
+- Updated pluggy (1.4.0 -> 1.5.0)
+- Updated pydantic (1.10.14 -> 2.8.0)
+- Updated requests (2.31.0 -> 2.32.3)
+- Updated setuptools (69.1.1 -> 69.5.1)
+- Updated authlib (1.3.0 -> 1.3.1)
+- Updated coverage (7.4.3 -> 7.5.4)
+- Updated dpath (2.1.6 -> 2.2.0)
+- Updated flake8-comprehensions (3.14.0 -> 3.15.0)
+- Updated identify (2.5.35 -> 2.5.36)
+- Updated more-itertools (10.2.0 -> 10.3.0)
+- Updated pytest (8.0.2 -> 8.2.2)
+- Updated requests-cache (1.1.1 -> 1.2.1)
+- Updated tomlkit (0.12.4 -> 0.12.5)
+- Updated typer (0.9.0 -> 0.12.3)
+- Updated types-pyyaml (6.0.12.12 -> 6.0.12.20240311)
+- Updated zipp (3.17.0 -> 3.19.2)
+- Updated black (24.2.0 -> 24.4.2)
+- Updated importlib-metadata (7.0.1 -> 7.2.1)
+- Updated importlib-resources (6.1.2 -> 6.4.0)
+- Updated mypy (1.8.0 -> 1.10.1)
+- Updated safety (3.0.1 -> 3.2.3)
+- Updated wtforglib (0.8.3 -> 1.0.1)
+
+### Removed
+
+- Support for python version < 3.9.0
+
 ## [v0.3.0](https://github.com/wtfo-guru/python-pacwrap/tree/v0.3.0) (2022-12-27)
 
 [Full Changelog](https://github.com/wtfo-guru/python-pacwrap/compare/v0.2.4-dev0...v0.3.0)
