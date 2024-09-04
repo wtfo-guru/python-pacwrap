@@ -65,6 +65,7 @@ optional = true
 sphinx = ">=5.2,<8.0"
 sphinx-autodoc-typehints = ">=1.19,<3.0"
 tomli = "^2.0"
+m2r2 = "^0.3.3.post2"
 
 
 [[tool.poetry.source]]
