@@ -12,7 +12,7 @@ GITHUB_ORG ?= wtf-guru
 .PHONY: update
 update:
 	poetry update --with test --with docs
-	pre-commit autoupdate
+	pre-commit-update-repo.sh
 
 .PHONY: vars
 vars:
@@ -40,9 +40,16 @@ unit:
 package:
 	poetry check
 	poetry run pip check
-	poetry run safety check --full-report
 
-test: lint package unit
+.PHONY: safety
+safety:
+	poetry run safety scan --full-report
+
+.PHONY: test
+test: safety lint package unit
+
+.PHONY: ghtest
+ghtest: lint package unit
 
 publish: clean-build test
 	manage-tag.sh -u v$(PROJECT_VERSION)
