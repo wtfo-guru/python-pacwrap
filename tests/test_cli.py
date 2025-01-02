@@ -1,7 +1,8 @@
 import pytest
 from cmp_version import cmp_version
 
-from pacwrap import VERSION, cli
+from pacwrap import cli
+from pacwrap.constants import VERSION
 from pacwrap.mkhandler import get_osinfo
 
 

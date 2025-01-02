@@ -5,7 +5,7 @@ from typing import NoReturn, Optional
 import click
 from click.core import Context
 
-from pacwrap import VERSION
+from pacwrap.constants import VERSION
 from pacwrap.mkhandler import create_handler
 
 CONTEXT_SETTINGS = types.MappingProxyType({"help_option_names": ["-h", "--help"]})
