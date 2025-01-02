@@ -3,6 +3,7 @@ import tempfile
 from pathlib import Path
 from typing import IO, BinaryIO, NoReturn, Optional, Tuple, Union
 
+import click
 from wtforglib.versioned import unlink_path
 
 from pacwrap.options import Options
@@ -56,12 +57,12 @@ class PackageHandler(Options):  # noqa: WPS214
         """Create a script file of piped commands and run it."""
         joined = " | ".join(cmds)
         if self.test:
-            print("noex: {0}".format(joined))
+            click.echo("noex: {0}".format(joined))
             return 0
         script = "#!/bin/sh\n\n{0}".format(joined)
         fp = tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", delete=False)
         sname = Path(fp.name)
-        print(script, file=fp)
+        click.echo(script, file=fp)
         fp.close()
         sname.chmod(XPERM)
         rtn_val = self.run_command((fp.name,))
@@ -74,7 +75,7 @@ class PackageHandler(Options):  # noqa: WPS214
             return bval.decode("utf-8")
         if isinstance(bval, BinaryIO):
             return bval.read().decode("utf-8")
-        print("NOTICE: Unable to decode type: {0}".format(str(type(bval))))
+        click.echo("NOTICE: Unable to decode type: {0}".format(str(type(bval))))
         return ""
 
     def handle_cmd_out(  # noqa: WPS234
@@ -97,14 +98,14 @@ class PackageHandler(Options):  # noqa: WPS214
                 if estr:
                     outf.write("stderr:\n{0}".format(estr))
         if not self.quiet:
-            print(ostr)
+            click.echo(ostr)
             if estr:
-                print("stderr:\n{0}".format(estr))
+                click.echo("stderr:\n{0}".format(estr))
 
     def run_command(self, args: Tuple[str, ...]) -> int:
         """Runs commands specified by args."""
         if self.test:
-            print("noex: {0}".format(" ".join(args)))
+            click.echo("noex: {0}".format(" ".join(args)))
             return 0
         res = subprocess.run(args, shell=False, capture_output=True)
         self.handle_cmd_out(res.stdout, res.stderr, res.returncode)
