@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+0.6.1-dev4 - 2025-01-12
+
+- update wheels path in Makefile
+- add python 3.13 to classifiers in pyproject.toml
+
 0.6.1-dev3 - 2024-12-03
 
 - tomli (2.0.2 -> 2.2.1)
