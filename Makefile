@@ -45,7 +45,7 @@ safety:
 	poetry run safety scan --full-report
 
 .PHONY: test
-test: lint package unit
+test: lint package safety unit
 
 .PHONY: ghtest
 ghtest: lint package unit
