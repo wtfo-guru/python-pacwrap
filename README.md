@@ -1,8 +1,8 @@
 # pacwrap
 
-[![Build Status](https://github.com/wtfo-guru/python-pacwrap/workflows/test/badge.svg)](https://github.com/wtfo-guru/python-pacwrap/actions?query=workflow%3Atest)
+[![Build Status](https://github.com/wtfo-guru/python-pacwrap/workflows/Pacwrap%20CI/badge.svg)](https://github.com/wtfo-guru/python-pacwrap/actions?query=workflow%3Atest)
 [![codecov](https://codecov.io/gh/wtfo-guru/python-pacwrap/branch/main/graph/badge.svg)](https://codecov.io/gh/wtfo-guru/python-pacwrap)
-[![Python Version](https://img.shields.io/pypi/pyversions/python-pacwrap.svg)](https://pypi.org/project/python-pacwrap/)
+[![Python Version](https://img.shields.io/pypi/pyversions/pacwrap.svg)](https://pypi.org/project/pacwrap/)
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
 Provides single interface to several common Linux package managers.
