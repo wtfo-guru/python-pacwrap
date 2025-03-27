@@ -8,18 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-0.6.1-dev4 - 2025-01-12
+### Changed
 
-- update wheels path in Makefile
-- add python 3.13 to classifiers in pyproject.toml
+- poetry >2.0 compatibility
 
-0.6.1-dev3 - 2024-12-03
-
-- tomli (2.0.2 -> 2.2.1)
-- exceptiongroup (1.2.1 -> 1.2.2)
-- cryptography (42.0.8 -> 43.0.0)
-- identify (2.5.36 -> 2.6.0)
-- wtforglib (1.0.1 -> 1.0.2)
 
 ## 0.6.0 - 2024-07-03
 
