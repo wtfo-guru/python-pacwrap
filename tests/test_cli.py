@@ -1,5 +1,5 @@
 import pytest
-from cmp_version import cmp_version
+from cmp_version import cmp_version  # type: ignore[import-untyped]
 
 from pacwrap import cli
 from pacwrap.constants import VERSION
@@ -28,7 +28,7 @@ def phandler() -> str:
 
 def test_cli_help(cli_runner):
     """Test help."""
-    fruit = cli_runner.invoke(cli.main)
+    fruit = cli_runner.invoke(cli.main, ["-h"])
     assert fruit.exit_code == 0
     assert not fruit.exception
     assert (
