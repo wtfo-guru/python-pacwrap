@@ -2,7 +2,7 @@ import re
 from typing import Tuple
 
 import distro
-from cmp_version import cmp_version
+from cmp_version import cmp_version  # type: ignore[import-untyped]
 from wtforglib.kinds import StrAnyDict
 
 from pacwrap.apt import AptHandler
