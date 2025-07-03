@@ -8,7 +8,7 @@ LAPT = "apt"
 class AptHandler(PackageHandler):
     """Class to handle apt package management."""
 
-    def list_packages(self):
+    def list_packages(self) -> int:
         """List packages."""
         return self.run_pipes_script(("apt list --installed", "sort"))
 

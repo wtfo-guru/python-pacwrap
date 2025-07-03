@@ -1,4 +1,5 @@
 import pytest
+from click.testing import CliRunner
 from cmp_version import cmp_version  # type: ignore[import-untyped]
 
 from pacwrap import cli
@@ -26,7 +27,7 @@ def phandler() -> str:
     return "dunno"
 
 
-def test_cli_help(cli_runner):
+def test_cli_help(cli_runner: CliRunner) -> None:
     """Test help."""
     fruit = cli_runner.invoke(cli.main, ["-h"])
     assert fruit.exit_code == 0
@@ -37,7 +38,7 @@ def test_cli_help(cli_runner):
     )
 
 
-def test_cli_version(cli_runner):
+def test_cli_version(cli_runner: CliRunner) -> None:
     """Test help."""
     fruit = cli_runner.invoke(cli.main, ["--version"])
     assert fruit.exit_code == 0
@@ -45,7 +46,7 @@ def test_cli_version(cli_runner):
     assert fruit.output.strip() == "main, version {0}".format(VERSION)
 
 
-def test_cli_file_command(cli_runner, phandler):
+def test_cli_file_command(cli_runner: CliRunner, phandler: str) -> None:
     """Test file."""
     fruit = cli_runner.invoke(cli.main, ["--test", "file", "/usr/bin/bashbug"])
     assert not fruit.exception
@@ -59,7 +60,7 @@ def test_cli_file_command(cli_runner, phandler):
         assert "noex: rpm -qf /usr/bin/bashbug" in fruit.output
 
 
-def test_cli_list_package(cli_runner, phandler):
+def test_cli_list_package(cli_runner: CliRunner, phandler: str) -> None:
     """Test list package."""
     fruit = cli_runner.invoke(cli.main, ["--test", "list", "bash"])
     assert not fruit.exception
@@ -73,7 +74,7 @@ def test_cli_list_package(cli_runner, phandler):
         assert "noex: rpm -ql bash" in fruit.output
 
 
-def test_cli_list_packages(cli_runner, phandler):
+def test_cli_list_packages(cli_runner: CliRunner, phandler: str) -> None:
     """Test list."""
     fruit = cli_runner.invoke(cli.main, ["--test", "list"])
     assert not fruit.exception
@@ -90,7 +91,7 @@ def test_cli_list_packages(cli_runner, phandler):
         )
 
 
-def test_cli_find_command(cli_runner, phandler):
+def test_cli_find_command(cli_runner: CliRunner, phandler: str) -> None:
     """Test find."""
     fruit = cli_runner.invoke(cli.main, ["--test", "find", "bash"])
     assert not fruit.exception
@@ -106,7 +107,7 @@ def test_cli_find_command(cli_runner, phandler):
         assert "noex: dnf search bash" in fruit.output
 
 
-def test_cli_find_refresh_option(cli_runner, phandler):
+def test_cli_find_refresh_option(cli_runner: CliRunner, phandler: str) -> None:
     """Test find."""
     fruit = cli_runner.invoke(cli.main, ["--test", "--refresh", "find", "bash"])
     assert not fruit.exception
@@ -122,7 +123,7 @@ def test_cli_find_refresh_option(cli_runner, phandler):
         assert "noex: dnf --refresh search bash" in fruit.output
 
 
-def test_cli_find_names_only_command(cli_runner, phandler):
+def test_cli_find_names_only_command(cli_runner: CliRunner, phandler: str) -> None:
     """Test find with names only option."""
     fruit = cli_runner.invoke(cli.main, ["--test", "find", "--names-only", "bash"])
     assert not fruit.exception
@@ -138,7 +139,7 @@ def test_cli_find_names_only_command(cli_runner, phandler):
         assert "noex: dnf search bash" in fruit.output
 
 
-def test_cli_info_command(cli_runner, phandler):
+def test_cli_info_command(cli_runner: CliRunner, phandler: str) -> None:
     """Test info."""
     fruit = cli_runner.invoke(cli.main, ["--test", "info", "bash"])
     assert not fruit.exception
@@ -152,7 +153,7 @@ def test_cli_info_command(cli_runner, phandler):
         assert "noex: rpm -qi bash" in fruit.output
 
 
-def test_cli_install_command(cli_runner, phandler):
+def test_cli_install_command(cli_runner: CliRunner, phandler: str) -> None:
     """Test install."""
     fruit = cli_runner.invoke(cli.main, ["--test", "install", "bash"])
     assert not fruit.exception
@@ -168,7 +169,7 @@ def test_cli_install_command(cli_runner, phandler):
         assert "noex: dnf install bash" in fruit.output
 
 
-def test_cli_install_refresh_option(cli_runner, phandler):
+def test_cli_install_refresh_option(cli_runner: CliRunner, phandler: str) -> None:
     """Test install."""
     fruit = cli_runner.invoke(cli.main, ["--test", "--refresh", "install", "bash"])
     assert not fruit.exception
@@ -185,7 +186,7 @@ def test_cli_install_refresh_option(cli_runner, phandler):
         assert "noex: dnf --refresh install bash" in fruit.output
 
 
-def test_cli_uninstall_command(cli_runner, phandler):
+def test_cli_uninstall_command(cli_runner: CliRunner, phandler: str) -> None:
     """Test uninstall."""
     fruit = cli_runner.invoke(cli.main, ["--test", "uninstall", "bash"])
     assert not fruit.exception

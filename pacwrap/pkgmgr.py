@@ -118,7 +118,7 @@ class PackageHandler(Options):  # noqa: WPS214
         """Return list package command args for handler."""
         self.unhandled("_list_package_args")
 
-    def _info_cmd_args(self, package_nm: str) -> Tuple[str, ...]:
+    def _info_cmd_args(self, package: str) -> Tuple[str, ...]:
         """Return info command args for handler."""
         self.unhandled("_info_cmd_args")
 

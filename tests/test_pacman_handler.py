@@ -37,84 +37,104 @@ def names() -> PackageHandler:
     return create_handler(options)
 
 
-def test_file_command(capfd, pwhandler):
+def test_file_command(
+    capfd: pytest.CaptureFixture[str], pwhandler: PackageHandler
+) -> None:
     """Test dnf handler file command."""
     assert isinstance(pwhandler, PacmanHandler)
-    tresult = pwhandler.file_action("/usr/bin/bashbug")
+    t_res = pwhandler.file_action("/usr/bin/bashbug")
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -Qo /usr/bin/bashbug" in out
 
 
-def test_list_package(capfd, pwhandler):
+def test_list_package(
+    capfd: pytest.CaptureFixture[str], pwhandler: PackageHandler
+) -> None:
     """Test list package."""
-    tresult = pwhandler.list_package("bash")
+    t_res = pwhandler.list_package("bash")
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -Ql bash" in out
 
 
-def test_list_packages(capfd, pwhandler):
+def test_list_packages(
+    capfd: pytest.CaptureFixture[str], pwhandler: PackageHandler
+) -> None:
     """Test list package."""
-    tresult = pwhandler.list_packages()
+    t_res = pwhandler.list_packages()
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -Qe" in out
 
 
-def test_find_action(capfd, pwhandler):
+def test_find_action(
+    capfd: pytest.CaptureFixture[str], pwhandler: PackageHandler
+) -> None:
     """Test find action."""
-    tresult = pwhandler.find_action("bash")
+    t_res = pwhandler.find_action("bash")
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -Ss bash" in out
 
 
-def test_find_action_refresh(capfd, refresh):
+def test_find_action_refresh(
+    capfd: pytest.CaptureFixture[str], refresh: PackageHandler
+) -> None:
     """Test find action."""
     assert isinstance(refresh, PacmanHandler)
-    tresult = refresh.find_action("bash")
+    t_res = refresh.find_action("bash")
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -Ssy bash" in out
 
 
-def test_find_action_names_only(capfd, names):
+def test_find_action_names_only(
+    capfd: pytest.CaptureFixture[str], names: PackageHandler
+) -> None:
     """Test find action with names_only."""
     assert isinstance(names, PacmanHandler)
-    tresult = names.find_action("bash")
+    t_res = names.find_action("bash")
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -Ss bash" in out
 
 
-def test_info_action(capfd, pwhandler):
+def test_info_action(
+    capfd: pytest.CaptureFixture[str], pwhandler: PackageHandler
+) -> None:
     """Test find action with names_only."""
-    tresult = pwhandler.info_action("bash")
+    t_res = pwhandler.info_action("bash")
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -Qi bash" in out
 
 
-def test_install_action(capfd, pwhandler):
+def test_install_action(
+    capfd: pytest.CaptureFixture[str], pwhandler: PackageHandler
+) -> None:
     """Test install action."""
-    tresult = pwhandler.install_action("bash")
+    t_res = pwhandler.install_action("bash")
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -S bash" in out
 
 
-def test_install_action_refresh(capfd, refresh):
+def test_install_action_refresh(
+    capfd: pytest.CaptureFixture[str], refresh: PackageHandler
+) -> None:
     """Test install action with refresh."""
-    tresult = refresh.install_action("bash")
+    t_res = refresh.install_action("bash")
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -Sy bash" in out
 
 
-def test_uninstall_action(capfd, pwhandler):
+def test_uninstall_action(
+    capfd: pytest.CaptureFixture[str], pwhandler: PackageHandler
+) -> None:
     """Test uninstall action with refresh."""
-    tresult = pwhandler.uninstall_action("bash")
+    t_res = pwhandler.uninstall_action("bash")
     out, err = capfd.readouterr()
-    assert tresult == 0
+    assert t_res == 0
     assert "noex: pacman -R bash" in out
