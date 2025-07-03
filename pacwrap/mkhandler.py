@@ -31,7 +31,7 @@ def get_osinfo(options: StrAnyDict) -> Tuple[str, str, str]:
     return (osid, oslike, osvers)
 
 
-def create_rhel_handler(options: StrAnyDict, osid: str, osvers) -> PackageHandler:
+def create_rhel_handler(options: StrAnyDict, osid: str, osvers: str) -> PackageHandler:
     """Returns package handler for redhat family."""
     if osid == "fedora":
         threshold_ver = "22"

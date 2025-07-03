@@ -13,7 +13,7 @@ class YumHandler(PackageHandler):
         super().__init__(opts)
         self.pkgcmd = "yum"
 
-    def list_packages(self):
+    def list_packages(self) -> int:
         """List packages."""
         cmds = (
             "rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\\n'",  # noqa: WPS342, E501
@@ -33,7 +33,7 @@ class YumHandler(PackageHandler):
         """Return file command args for handler."""
         return ("rpm", "-qf", fpath)
 
-    def _info_cmd_args(self, package) -> Tuple[str, ...]:
+    def _info_cmd_args(self, package: str) -> Tuple[str, ...]:
         """Return info command args for handler."""
         return ("rpm", "-qi", package)
 

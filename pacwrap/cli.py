@@ -115,7 +115,15 @@ def uninstall(ctx: Context, package: str) -> NoReturn:
 )
 @click.version_option(VERSION)
 @click.pass_context
-def main(ctx, debug, output, quiet, refresh, test, verbose):
+def main(
+    ctx: Context,
+    debug: int,
+    output: str,
+    quiet: bool,
+    refresh: bool,
+    test: bool,
+    verbose: int,
+) -> int:
     """Provides single interface to several common Linux package managers."""
     ctx.ensure_object(dict)
     ctx.obj[KDEBUG] = debug
@@ -124,6 +132,7 @@ def main(ctx, debug, output, quiet, refresh, test, verbose):
     ctx.obj["refresh"] = refresh
     ctx.obj["test"] = test
     ctx.obj["verbose"] = verbose
+    return 0
 
 
 main.add_command(file_cmd, name="file")

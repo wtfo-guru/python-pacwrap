@@ -9,7 +9,7 @@ verbose_opts = {"test": False, "debug": 0, "verbose": 1}
 CONST_TEST_STRING = "When it stops hurting it will feel better."
 
 
-def test_options_debug_flag(capfd):
+def test_options_debug_flag(capfd: pytest.CaptureFixture[str]) -> None:
     """Test options debug flag."""
     oopts = Options(dbg_opts)
     oopts.trace(CONST_TEST_STRING)
@@ -21,7 +21,7 @@ def test_options_debug_flag(capfd):
     assert CONST_TEST_STRING in out
 
 
-def test_options_verbose_flag(capfd):
+def test_options_verbose_flag(capfd: pytest.CaptureFixture[str]) -> None:
     """Test options verbose flag."""
     oopts = Options(verbose_opts)
     oopts.trace(CONST_TEST_STRING)
@@ -33,7 +33,7 @@ def test_options_verbose_flag(capfd):
     assert CONST_TEST_STRING in out
 
 
-def test_default_options(capfd):
+def test_default_options(capfd: pytest.CaptureFixture[str]) -> None:
     """Test options defaults."""
     oopts = Options()
     oopts.trace(CONST_TEST_STRING)
@@ -44,7 +44,7 @@ def test_default_options(capfd):
     assert CONST_TEST_STRING not in out
 
 
-def test_options_test_flag(capfd):
+def test_options_test_flag(capfd: pytest.CaptureFixture[str]) -> None:
     """Test options test flag."""
     oopts = Options(test_opts)
     oopts.trace(CONST_TEST_STRING)
@@ -55,7 +55,7 @@ def test_options_test_flag(capfd):
     assert CONST_TEST_STRING in out
 
 
-def test_options_requires_super_user():
+def test_options_requires_super_user() -> None:
     """Test options requires super user."""
     oopts = Options()
     with pytest.raises(PermissionError):

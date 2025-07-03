@@ -8,7 +8,7 @@ LPACMAN = "pacman"
 class PacmanHandler(PackageHandler):
     """Class to handle the pacman package manager."""
 
-    def list_packages(self):
+    def list_packages(self) -> int:
         """List packages."""
         return self.run_command((LPACMAN, "-Qe"))
 

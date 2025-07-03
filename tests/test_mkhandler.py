@@ -35,31 +35,31 @@ dnf_opts = {
 }
 
 
-def test_create_apt_handler():
+def test_create_apt_handler() -> None:
     """Test create apt handler."""
     pwh = create_handler(apt_opts)
     assert isinstance(pwh, AptHandler)
 
 
-def test_create_pacman_handler():
+def test_create_pacman_handler() -> None:
     """Test create apt handler."""
     pwh = create_handler(pm_opts)
     assert isinstance(pwh, PacmanHandler)
 
 
-def test_create_yum_handler():
+def test_create_yum_handler() -> None:
     """Test create yum handler."""
     pwh = create_handler(yum_opts)
     assert isinstance(pwh, YumHandler)
 
 
-def test_create_dnf_handler():
+def test_create_dnf_handler() -> None:
     """Test create dnf handler."""
     pwh = create_handler(dnf_opts)
     assert isinstance(pwh, DnfHandler)
 
 
-def test_create_gentoo_handler():
+def test_create_gentoo_handler() -> None:
     """Test create gentoo handler."""
     with pytest.raises(ValueError, match="Unsupported distro"):
         create_handler(gt_opts)
