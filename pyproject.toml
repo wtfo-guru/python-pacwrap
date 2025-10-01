@@ -1,14 +1,16 @@
 [project]
 name = "pacwrap"
 description = "Provides single interface to several common Linux package managers."
-license = "MIT"
 keywords = []
-version = "0.6.1-dev11"
+version = "0.6.1-dev12"
 dynamic = ["classifiers"]
 readme = "README.md"
 authors = [{name = "Quien Sabe", email = "qs5779@mail.com"}]
 requires-python = '>=3.10,<4.0'
 dependencies = ['click (>=8.1.0,<9.0.0)', 'distro (>=1.9,<2.0)', 'wtforglib (>=1.0.0,<2.0.0)', 'cmp-version (>=3.0.0,<4.0.0)']
+
+[project.License]
+license = "License :: OSI Approved :: MIT License"
 
 [project.urls]
 homepage = "https://github.com/wtfo-guru/pacwrap"
@@ -25,7 +27,6 @@ classifiers = [
   "Intended Audience :: End Users/Desktop",
   "Intended Audience :: System Administrators",
   "Operating System :: POSIX :: Linux",
-  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -46,8 +47,8 @@ flake8-pytest-style = ">=1.6,<3.0"
 doc8 = "^2.0"
 docutils = ">=0.19,<0.21"
 pytest = ">=7.4,<9.0"
-pytest-cov = "^6.0.0"
-pytest-randomly = "^3.13"
+pytest-cov = "^7.0.0"
+pytest-randomly = "^4.0.0"
 isort = "^6.0"
 black = "^25.0"
 requests-cache = ">=0.9,<1.3"
