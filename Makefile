@@ -88,7 +88,12 @@ publish-test: build
 
 .PHONY: safety
 safety:
-	safety scan --full-report
+	safety --proxy-port 3128 --proxy-protocol http --proxy-host squid.metaorg.com scan
+
+.PHONY: safety-report
+safety-report:
+	safety --proxy-port 3128 --proxy-protocol http --proxy-host squid.metaorg.com scan --detailed-output --save-as json safety-report.json
+	code ./safety-report.json
 
 .PHONY: nitpick
 nitpick:
