@@ -2,7 +2,7 @@
 name = "pacwrap"
 description = "Provides single interface to several common Linux package managers."
 keywords = []
-version = "0.6.1-dev13"
+version = "0.6.1-dev14"
 dynamic = ["classifiers"]
 readme = "README.md"
 license = "MIT"
