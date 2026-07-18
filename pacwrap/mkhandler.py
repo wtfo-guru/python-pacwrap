@@ -22,12 +22,12 @@ def get_osinfo(options: StrAnyDict) -> Tuple[str, str, str]:
         osid = options.get("osid", osid)
         oslike = options.get("oslike", oslike)
         osvers = options.get("osvers", osvers)
-    if osid in {"debian", "pop"}:
-        oslike = "debian"
-    elif osid in {"fedora", "rocky"}:
-        oslike = "rhel"
-    elif osid in {"arch", "manjaro"}:
-        oslike = "arch"
+    # if osid in {"debian", "pop"}:
+    #     oslike = "debian"
+    # elif osid in {"fedora", "rocky"}:
+    #     oslike = "rhel"
+    # elif osid in {"arch", "manjaro"}:
+    #     oslike = "arch"
     return (osid, oslike, osvers)
 
 
@@ -48,9 +48,9 @@ def create_handler(options: StrAnyDict) -> PackageHandler:
 
     phandler: PackageHandler
 
-    if oslike == "arch":
+    if re.search("arch", oslike):
         phandler = PacmanHandler(options)
-    elif oslike == "debian":
+    elif re.search("debian", oslike):
         phandler = AptHandler(options)
     elif re.search("rhel", oslike):
         phandler = create_rhel_handler(options, osid, osvers)

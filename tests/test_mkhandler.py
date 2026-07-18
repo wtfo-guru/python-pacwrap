@@ -14,23 +14,27 @@ gt_opts = {
 
 apt_opts = {
     "test": True,
-    "osid": "debian",
+    "osid": "linuxmint",
+    "oslike": "ubuntu debian",
 }
 
 pm_opts = {
     "test": True,
     "osid": "arch",
+    "oslike": "arch",
 }
 
 yum_opts = {
     "test": True,
     "osid": "fedora",
+    "oslike": "rhel",
     "osvers": "21",
 }
 
 dnf_opts = {
     "test": True,
     "osid": "rocky",
+    "oslike": "rhel",
     "osvers": "9",
 }
 

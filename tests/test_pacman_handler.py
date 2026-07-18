@@ -10,7 +10,8 @@ def pwhandler() -> PackageHandler:
     """Return handler name."""
     options = {
         "test": True,
-        "osid": "arch",
+        "osid": "cachyos",
+        "oslike": "arch",
     }
     return create_handler(options)
 
@@ -22,6 +23,7 @@ def refresh() -> PackageHandler:
         "refresh": True,
         "test": True,
         "osid": "arch",
+        "oslike": "arch",
     }
     return create_handler(options)
 
@@ -33,6 +35,7 @@ def names() -> PackageHandler:
         "names_only": True,
         "test": True,
         "osid": "arch",
+        "oslike": "arch",
     }
     return create_handler(options)
 
