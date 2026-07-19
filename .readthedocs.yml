@@ -15,7 +15,8 @@ build:
     pre_install:
       - python -m pip install --upgrade --no-cache-dir pip setuptools sphinx tomli
       - $READTHEDOCS_VIRTUALENV_PATH/bin/python -m pip install --no-cache-dir poetry
-      - $READTHEDOCS_VIRTUALENV_PATH/bin/poetry install --only main --only docs
+      - $READTHEDOCS_VIRTUALENV_PATH/bin/poetry config virtualenvs.create false
+      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH $READTHEDOCS_VIRTUALENV_PATH/bin/poetry install --only main --only docs
 
 sphinx:
   configuration: 'docs/conf.py'
