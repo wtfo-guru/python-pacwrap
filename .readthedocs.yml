@@ -13,7 +13,7 @@ build:
     #   - asdf global poetry latest
     #   - poetry config virtualenvs.create false
     pre_install:
-      - python -m pip install --upgrade --no-cache-dir pip setuptools sphinx
+      - python -m pip install --upgrade --no-cache-dir pip setuptools sphinx tomli
       - $READTHEDOCS_VIRTUALENV_PATH/bin/python -m pip install --no-cache-dir poetry
       - $READTHEDOCS_VIRTUALENV_PATH/bin/poetry install --only main --only docs
 
