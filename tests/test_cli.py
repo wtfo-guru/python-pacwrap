@@ -1,3 +1,5 @@
+import re
+
 import pytest
 from click.testing import CliRunner
 from cmp_version import cmp_version  # type: ignore[import-untyped]
@@ -12,11 +14,11 @@ def phandler() -> str:
     """Return handler name."""
     osid, oslike, osvers = get_osinfo({"test": True})
 
-    if oslike == "arch":
+    if re.search("arch", oslike):
         return "PacmanHandler"
-    elif oslike == "debian":
+    elif re.search("debian", oslike):
         return "AptHandler"
-    elif oslike == "rhel":
+    elif re.search("rhel", oslike):
         if osid == "fedora":
             threshold_ver = "22"
         else:

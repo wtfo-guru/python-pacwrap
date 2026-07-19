@@ -2,7 +2,7 @@
 name = "pacwrap"
 description = "Provides single interface to several common Linux package managers."
 keywords = []
-version = "0.6.1-dev14"
+version = "0.6.1"
 dynamic = ["classifiers"]
 readme = "README.md"
 license = "MIT"
@@ -79,3 +79,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.nitpick]
 style = "https://www.wtfo-guru.com/.well-known/nitpick-wtf-style.toml"
+
+[tool.black]
+target-version = ["py312"]

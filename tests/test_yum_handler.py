@@ -11,6 +11,7 @@ def pwhandler() -> PackageHandler:
     options = {
         "test": True,
         "osid": "fedora",
+        "oslike": "rhel",
         "osvers": "21",
     }
     return create_handler(options)
@@ -23,6 +24,7 @@ def refresh() -> PackageHandler:
         "refresh": True,
         "test": True,
         "osid": "fedora",
+        "oslike": "rhel",
         "osvers": "21",
     }
     return create_handler(options)
@@ -35,6 +37,7 @@ def names() -> PackageHandler:
         "names_only": True,
         "test": True,
         "osid": "fedora",
+        "oslike": "rhel",
         "osvers": "21",
     }
     return create_handler(options)

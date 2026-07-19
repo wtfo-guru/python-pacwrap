@@ -2,18 +2,21 @@ version: 2
 
 # Set the version of Python and other tools you might need
 build:
-  os: ubuntu-20.04
+  os: ubuntu-lts-latest
   tools:
-    python: '3.10'
+    python: '3.12'
   jobs:
     # See https://github.com/readthedocs/readthedocs.org/issues/4912
-    pre_create_environment:
-      - asdf plugin add poetry
-      - asdf install poetry latest
-      - asdf global poetry latest
-      - poetry config virtualenvs.create false
-    post_install:
-      - . "$(pwd | rev | sed 's/stuokcehc/svne/' | rev)/bin/activate" && poetry install --only main --only docs
+    # pre_create_environment:
+    #   - asdf plugin add poetry
+    #   - asdf install poetry latest
+    #   - asdf global poetry latest
+    #   - poetry config virtualenvs.create false
+    pre_install:
+      - python -m pip install --upgrade --no-cache-dir pip setuptools sphinx tomli
+      - $READTHEDOCS_VIRTUALENV_PATH/bin/python -m pip install --no-cache-dir poetry
+      - $READTHEDOCS_VIRTUALENV_PATH/bin/poetry config virtualenvs.create false
+      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH $READTHEDOCS_VIRTUALENV_PATH/bin/poetry install --only main --only docs
 
 sphinx:
   configuration: 'docs/conf.py'
